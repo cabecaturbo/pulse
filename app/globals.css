@@ -1,0 +1,47 @@
+@import "tailwindcss";
+
+@theme {
+  /* Pulse scale: deep teal (good) -> warm amber (strained). Never red. */
+  --color-pulse-1: #0f766e; /* deep teal — good */
+  --color-pulse-2: #14b8a6;
+  --color-pulse-3: #64748b; /* neutral slate midpoint */
+  --color-pulse-4: #d97706;
+  --color-pulse-5: #b45309; /* warm amber — strained */
+
+  --color-ink: #0b1220;
+  --color-mist: #f7f8fa;
+
+  --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI",
+    Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+:root {
+  color-scheme: light dark;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Spring tap feedback — the only motion staff screens get */
+@keyframes pulse-spring {
+  0% { transform: scale(1); }
+  35% { transform: scale(0.93); }
+  70% { transform: scale(1.03); }
+  100% { transform: scale(1); }
+}
+
+.tap-spring {
+  animation: pulse-spring 240ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tap-spring { animation: none; }
+}
