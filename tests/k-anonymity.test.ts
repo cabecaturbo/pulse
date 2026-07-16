@@ -34,6 +34,9 @@ function randomPastWeek(): Date {
 
 const WEEK = randomPastWeek();
 const WEEKS_BACK = Math.ceil((Date.now() - WEEK.getTime()) / (7 * 86400_000)) + 2;
+// Unique per run: earlier runs' weeks legitimately reach the floor, so their
+// comments become visible by design — only THIS run's week must stay dark.
+const LEAK_MARKER = `should never leak ${WEEK.toISOString().slice(0, 10)}-${Math.random().toString(36).slice(2, 8)}`;
 
 let anon: SupabaseClient;
 let manager: SupabaseClient;
@@ -103,7 +106,7 @@ d("the 5-response floor holds under attack", () => {
   it("4 responses in a week: the week does not exist via the API", async () => {
     for (let i = 0; i < 4; i++) {
       const { error } = await anon.from("pulse_responses").insert(
-        response({ energy: 1, comment: "should never leak" })
+        response({ energy: 1, comment: LEAK_MARKER })
       );
       expect(error).toBeNull();
     }
@@ -117,7 +120,7 @@ d("the 5-response floor holds under attack", () => {
     });
     expect(error).toBeNull();
     const leaked = (data as { comment: string }[]).filter(
-      (c) => c.comment === "should never leak"
+      (c) => c.comment === LEAK_MARKER
     );
     expect(leaked).toHaveLength(0);
   });
