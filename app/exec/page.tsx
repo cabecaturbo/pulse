@@ -29,9 +29,9 @@ export default async function ExecPage({
 
   if (!exec) {
     return (
-      <main className="mx-auto max-w-2xl px-6 py-16 text-slate-200">
-        <h1 className="text-2xl font-bold">Executive view</h1>
-        <p className="mt-3 text-slate-400">
+      <main className="mx-auto max-w-2xl bg-mist px-6 py-16 text-ink">
+        <h1 className="text-2xl font-semibold">Executive view</h1>
+        <p className="mt-3 text-slate-600">
           Your account isn&apos;t linked to a hospital as an executive. Ask your
           Pulse admin.
         </p>
@@ -65,37 +65,41 @@ export default async function ExecPage({
     .sort((a, b) => trendDelta(b)! - trendDelta(a)!)[0];
 
   return (
-    <main className="min-h-dvh bg-slate-950 px-5 pb-16 pt-8 text-slate-100">
+    <main className="min-h-dvh bg-mist px-6 pb-16 pt-10 text-ink">
       <div className="mx-auto max-w-3xl">
-        <header className="mb-8 flex items-baseline justify-between">
-          <div>
-            <h1 className="text-2xl font-bold tracking-tight">{hospital.name}</h1>
-            <p className="text-sm text-slate-400">
-              Resilience by unit, last 4 weeks vs the 4 before. 5-response floor applies.
-            </p>
+        <header className="mb-12">
+          <div className="masthead-rule" />
+          <div className="mt-3 flex items-baseline justify-between">
+            <div>
+              <h1 className="text-4xl font-semibold tracking-tight">{hospital.name}</h1>
+              <p className="mt-1 text-sm text-slate-500">
+                Resilience by unit, last 4 weeks vs the 4 before. 5-response floor applies.
+              </p>
+            </div>
+            <SignOutButton />
           </div>
-          <SignOutButton />
         </header>
 
-        <div
-          className="rounded-[1.6rem] border border-amber-400/25 bg-amber-500/10 p-6 backdrop-blur-xl"
+        <section
           title={`Methodology: ${stormUnits.length} unit(s) in sustained storm (recent energy ≤ 2.8/5 and not improving) × ${hospital.nurses_per_unit} nurses per unit × ${Math.round(AT_RISK_SHARE * 100)}% assumed at elevated attrition risk × ${fmtMoney(Number(hospital.replacement_cost))} replacement cost. The ${Math.round(AT_RISK_SHARE * 100)}% share is an assumption, not a measurement — calibrated after pilots.`}
         >
-          <p className="text-sm font-semibold uppercase tracking-wider text-amber-300">
+          <p className="text-xs font-semibold uppercase tracking-[0.14em] text-slate-500">
             Turnover dollars at risk · this quarter
           </p>
-          <p className="mt-2 text-4xl font-bold">{fmtMoney(dollars)}</p>
-          <p className="mt-1 text-[15px] text-amber-100/80">
+          <p className="mt-1 text-6xl font-semibold tracking-tight text-press-2">
+            {fmtMoney(dollars)}
+          </p>
+          <p className="mt-2 text-[15px] text-slate-600">
             {stormUnits.length === 0
               ? "No units in sustained storm right now."
               : `Concentrated in ${stormUnits.length} unit${stormUnits.length > 1 ? "s" : ""}: ${stormUnits
                   .map((u) => u.unit_name)
                   .join(", ")}. Hover for the honest math.`}
           </p>
-        </div>
+        </section>
 
-        <div className="mt-6 flex items-center gap-2 text-sm">
-          <span className="text-slate-400">Shift:</span>
+        <div className="mt-10 flex items-center gap-4 text-sm">
+          <span className="text-slate-500">Shift:</span>
           {[
             ["All", "/exec"],
             ["Day", "/exec?shift=day"],
@@ -104,75 +108,73 @@ export default async function ExecPage({
             <Link
               key={label}
               href={href}
-              className={`rounded-full px-3.5 py-1 ${
+              className={
                 (label === "All" && !shiftFilter) ||
                 label.toLowerCase() === shiftFilter
-                  ? "bg-teal-600 text-white"
-                  : "bg-white/10 text-slate-300"
-              }`}
+                  ? "font-semibold text-press-deep underline"
+                  : "text-slate-600 hover:underline"
+              }
             >
               {label}
             </Link>
           ))}
         </div>
 
-        <div className="mt-4 overflow-hidden rounded-[1.6rem] border border-white/10">
-          <table className="w-full text-left text-[15px]">
-            <thead className="bg-white/5 text-xs uppercase tracking-wider text-slate-400">
-              <tr>
-                <th className="px-5 py-3">Unit</th>
-                <th className="px-4 py-3">Energy</th>
-                <th className="px-4 py-3">Trend</th>
-                <th className="px-4 py-3">Breaks</th>
-                <th className="px-4 py-3"></th>
-              </tr>
-            </thead>
-            <tbody>
-              {league.map((row) => {
-                const delta = trendDelta(row);
-                return (
-                  <tr key={row.unit_id} className="border-t border-white/5">
-                    <td className="px-5 py-3.5 font-medium">
-                      {row.unit_name}
-                      {best?.unit_id === row.unit_id && (
-                        <span className="ml-2 rounded-full bg-teal-500/20 px-2 py-0.5 text-xs text-teal-300">
-                          strongest
+        <table className="mt-6 w-full text-left text-[15px]">
+          <thead className="text-xs uppercase tracking-[0.1em] text-slate-500">
+            <tr className="border-b border-ink/20">
+              <th className="py-3 pr-5 font-semibold">Unit</th>
+              <th className="py-3 pr-4 font-semibold">Energy</th>
+              <th className="py-3 pr-4 font-semibold">Trend</th>
+              <th className="py-3 pr-4 font-semibold">Breaks</th>
+              <th className="py-3"></th>
+            </tr>
+          </thead>
+          <tbody>
+            {league.map((row) => {
+              const delta = trendDelta(row);
+              return (
+                <tr key={row.unit_id} className="border-t border-ink/10">
+                  <td className="py-3.5 pr-5 font-semibold">
+                    {row.unit_name}
+                    {best?.unit_id === row.unit_id && (
+                      <span className="ml-2 text-xs font-normal italic text-press-deep">
+                        strongest
+                      </span>
+                    )}
+                    {mostImproved?.unit_id === row.unit_id &&
+                      trendDelta(row)! > 0.15 && (
+                        <span className="ml-2 text-xs font-normal italic text-press-deep">
+                          most improved
                         </span>
                       )}
-                      {mostImproved?.unit_id === row.unit_id &&
-                        trendDelta(row)! > 0.15 && (
-                          <span className="ml-2 rounded-full bg-sky-500/20 px-2 py-0.5 text-xs text-sky-300">
-                            most improved
-                          </span>
-                        )}
-                    </td>
-                    <td className="px-4 py-3.5">{Number(row.recent_energy).toFixed(1)}/5</td>
-                    <td className="px-4 py-3.5">
-                      {delta === null ? (
-                        <span className="text-slate-500">new</span>
-                      ) : (
-                        <span className={delta >= 0 ? "text-teal-300" : "text-amber-400"}>
-                          {delta > 0 ? "▲" : delta < 0 ? "▼" : "—"} {Math.abs(delta)}
-                        </span>
-                      )}
-                    </td>
-                    <td className="px-4 py-3.5">{Math.round(Number(row.recent_break_rate) * 100)}%</td>
-                    <td className="px-4 py-3.5 text-right">
-                      {isStorming(row) && <span title="sustained storm">⛈</span>}
-                    </td>
-                  </tr>
-                );
-              })}
-              {league.length === 0 && (
-                <tr>
-                  <td colSpan={5} className="px-5 py-8 text-center text-slate-400">
-                    No units clear the 5-response floor for this filter yet.
+                  </td>
+                  <td className="py-3.5 pr-4">{Number(row.recent_energy).toFixed(1)}/5</td>
+                  <td className="py-3.5 pr-4">
+                    {delta === null ? (
+                      <span className="text-slate-500">new</span>
+                    ) : (
+                      <span className={delta >= 0 ? "text-press-deep" : "text-pulse-5"}>
+                        {delta > 0 ? "▲" : delta < 0 ? "▼" : "—"} {Math.abs(delta)}
+                      </span>
+                    )}
+                  </td>
+                  <td className="py-3.5 pr-4">{Math.round(Number(row.recent_break_rate) * 100)}%</td>
+                  <td className="py-3.5 text-right">
+                    {isStorming(row) && <span title="sustained storm">⛈</span>}
                   </td>
                 </tr>
-              )}
-            </tbody>
-          </table>
-        </div>
+              );
+            })}
+            {league.length === 0 && (
+              <tr>
+                <td colSpan={5} className="py-8 text-center text-slate-500">
+                  No units clear the 5-response floor for this filter yet.
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
       </div>
     </main>
   );

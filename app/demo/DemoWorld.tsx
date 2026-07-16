@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { forecastUnit } from "@/lib/forecast/engine";
 import type { ShiftWeeklyRow, WeeklyRow } from "@/lib/forecast/types";
-import { ambientGradient, severityLabel } from "@/components/dashboard/ambient";
+import { severityLabel, severityTone } from "@/components/dashboard/ambient";
 import { dollarsAtRisk, fmtMoney, AT_RISK_SHARE, type LeagueRow } from "@/lib/exec";
 
 interface DemoUnit {
@@ -53,9 +53,13 @@ export default function DemoWorld() {
   }, []);
 
   if (failed)
-    return <p className="p-10 text-center text-slate-400">Demo data unavailable.</p>;
+    return (
+      <p className="bg-mist p-10 text-center text-slate-500">Demo data unavailable.</p>
+    );
   if (!data)
-    return <p className="p-10 text-center text-slate-400">Loading the demo world…</p>;
+    return (
+      <p className="bg-mist p-10 text-center text-slate-500">Loading the demo world…</p>
+    );
 
   const units = data.units ?? [];
   const cards = units
@@ -85,81 +89,80 @@ export default function DemoWorld() {
   );
 
   return (
-    <main className="min-h-dvh bg-slate-950 px-5 pb-16 pt-8 text-slate-100">
+    <main className="min-h-dvh bg-mist px-6 pb-16 pt-10 text-ink">
       <div className="mx-auto max-w-2xl">
-        <header className="mb-6">
-          <p className="text-xs font-semibold uppercase tracking-widest text-teal-400">
+        <header>
+          <div className="masthead-rule" />
+          <p className="mt-3 text-xs font-semibold uppercase tracking-[0.14em] text-press-deep">
             Live demo · synthetic data
           </p>
-          <h1 className="mt-1 text-2xl font-bold tracking-tight">
+          <h1 className="mt-2 text-4xl font-semibold tracking-tight">
             {data.hospital?.name ?? "Riverbend Medical Center"}
           </h1>
-          <p className="mt-1 text-sm text-slate-400">
+          <p className="mt-3 max-w-prose text-[15px] leading-relaxed text-slate-600">
             Every number below came through the same k-anonymity floor real
             hospitals get: nothing shows for any group under 5 responses. Try
             the nurse side at{" "}
-            <Link href="/p/demo-icu" className="text-teal-400 underline">
+            <Link href="/p/demo-icu" className="text-press-deep underline">
               /p/demo-icu
             </Link>
             .
           </p>
         </header>
 
-        <div
-          className="mb-6 rounded-[1.6rem] border border-amber-400/25 bg-amber-500/10 p-5"
+        <section
+          className="mt-12"
           title={`${stormUnits.length} storm unit(s) × ${data.hospital?.nurses_per_unit ?? 32} nurses × ${Math.round(AT_RISK_SHARE * 100)}% assumed at risk × ${fmtMoney(Number(data.hospital?.replacement_cost ?? 55000))} replacement cost. The ${Math.round(AT_RISK_SHARE * 100)}% is an assumption, calibrated after pilots.`}
         >
-          <p className="text-sm font-semibold uppercase tracking-wider text-amber-300">
+          <p className="text-xs font-semibold uppercase tracking-[0.14em] text-slate-500">
             Turnover dollars at risk · this quarter
           </p>
-          <p className="mt-1 text-3xl font-bold">{fmtMoney(dollars)}</p>
-          <p className="mt-1 text-sm text-amber-100/80">
+          <p className="mt-1 text-6xl font-semibold tracking-tight text-press-2">
+            {fmtMoney(dollars)}
+          </p>
+          <p className="mt-2 text-[15px] text-slate-600">
             Concentrated in {stormUnits.length} unit
             {stormUnits.length === 1 ? "" : "s"}:{" "}
             {stormUnits.map((u) => u.unit_name).join(", ") || "—"} · hover for
             the honest math
           </p>
-        </div>
+        </section>
 
-        <div className="flex flex-col gap-5">
+        <div className="mt-14 flex flex-col gap-12">
           {cards.map(({ unit, forecast }) => (
-            <div
-              key={unit.unit_id}
-              className="rounded-[2rem] p-2"
-              style={{ background: ambientGradient(forecast.severity) }}
-            >
-              <div className="rounded-[1.6rem] border border-white/15 bg-white/10 p-5 backdrop-blur-xl">
-                <div className="flex items-center justify-between">
-                  <h2 className="text-lg font-semibold">{unit.unit_name}</h2>
-                  <span className="rounded-full bg-black/25 px-3 py-1 text-xs font-medium">
-                    {severityLabel(forecast.severity)}
-                  </span>
-                </div>
-                <p className="mt-2 text-lg font-medium leading-snug">{forecast.headline}</p>
+            <article key={unit.unit_id}>
+              <p className="flex items-baseline gap-3 text-xs font-semibold uppercase tracking-[0.14em]">
+                <span className="text-slate-500">{unit.unit_name}</span>
+                <span className={severityTone(forecast.severity)}>
+                  {severityLabel(forecast.severity)}
+                </span>
+              </p>
+              <h2 className="mt-2 text-2xl font-semibold leading-snug tracking-tight">
+                {forecast.headline}
+              </h2>
 
-                {unit.cohort &&
-                  unit.cohort.cohort_avg_support < unit.cohort.unit_avg_support - 0.5 && (
-                    <p className="mt-3 rounded-xl bg-black/25 px-3 py-2 text-sm text-amber-200">
-                      🐣 New grads trending{" "}
-                      {(unit.cohort.unit_avg_support - unit.cohort.cohort_avg_support).toFixed(1)}{" "}
-                      below unit average on support
-                    </p>
-                  )}
-
-                {unit.latest_action && (
-                  <p className="mt-3 rounded-xl bg-black/25 px-3 py-2 text-sm text-teal-200">
-                    ✅ &ldquo;{unit.latest_action.text}&rdquo; —{" "}
-                    {unit.latest_action.helped} said it helped
-                    {forecast.severity === "clear" ? " · unit recovered" : ""}
+              {unit.cohort &&
+                unit.cohort.cohort_avg_support < unit.cohort.unit_avg_support - 0.5 && (
+                  <p className="mt-2 text-[15px] text-pulse-5">
+                    🐣 New grads trending{" "}
+                    {(unit.cohort.unit_avg_support - unit.cohort.cohort_avg_support).toFixed(1)}{" "}
+                    below unit average on support
                   </p>
                 )}
-              </div>
-            </div>
+
+              {unit.latest_action && (
+                <p className="mt-2 text-[15px] italic text-slate-600">
+                  ✅ &ldquo;{unit.latest_action.text}&rdquo; —{" "}
+                  {unit.latest_action.helped} said it helped
+                  {forecast.severity === "clear" ? " · unit recovered" : ""}
+                </p>
+              )}
+            </article>
           ))}
         </div>
 
-        <p className="mt-8 text-center text-sm text-slate-500">
-          <Link href="/trust" className="underline">
+        <p className="mt-16 text-center text-sm text-slate-500">
+          <Link href="/trust" className="text-press-deep underline">
             The privacy promise
           </Link>{" "}
           · every screen in this demo respects it

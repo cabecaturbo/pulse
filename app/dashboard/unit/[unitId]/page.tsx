@@ -8,7 +8,7 @@ import { clusterComments } from "@/lib/themes";
 import TrendLines from "@/components/dashboard/TrendLines";
 import ShiftHeatmap from "@/components/dashboard/ShiftHeatmap";
 import ActionsPanel from "@/components/dashboard/ActionsPanel";
-import { ambientGradient, severityLabel } from "@/components/dashboard/ambient";
+import { severityLabel, severityTone } from "@/components/dashboard/ambient";
 
 export const metadata = { title: "Pulse — unit detail" };
 export const dynamic = "force-dynamic";
@@ -87,88 +87,88 @@ export default async function UnitDetailPage({
   );
 
   return (
-    <main
-      className="min-h-dvh px-5 pb-16 pt-8 text-slate-100"
-      style={{ background: ambientGradient(forecast.severity) }}
-    >
+    <main className="min-h-dvh bg-mist px-6 pb-16 pt-10 text-ink">
       <div className="mx-auto max-w-2xl">
-        <Link href="/dashboard" className="text-sm text-white/60 hover:text-white">
+        <Link href="/dashboard" className="text-sm text-press-deep hover:underline">
           ← All units
         </Link>
 
-        <header className="mt-4 rounded-[1.6rem] border border-white/15 bg-white/10 p-6 backdrop-blur-xl">
-          <div className="flex items-center justify-between">
-            <h1 className="text-2xl font-bold tracking-tight">{unit.name}</h1>
-            <span className="rounded-full bg-black/25 px-3 py-1 text-xs font-medium">
+        <header className="mt-6">
+          <div className="masthead-rule" />
+          <p className="mt-3 flex items-baseline gap-3 text-xs font-semibold uppercase tracking-[0.14em]">
+            <span className="text-slate-500">{unit.name}</span>
+            <span className={severityTone(forecast.severity)}>
               {severityLabel(forecast.severity)}
             </span>
-          </div>
-          <p className="mt-2 text-lg">{forecast.headline}</p>
+          </p>
+          <h1 className="mt-2 text-3xl font-semibold leading-snug tracking-tight">
+            {forecast.headline}
+          </h1>
         </header>
 
         {/* New-grad cohort strip (only when both groups clear the floor) */}
         {cohort && cohort.cohort_avg_support < cohort.unit_avg_support && (
-          <div className="mt-4 rounded-2xl border border-amber-400/30 bg-amber-950/40 p-4 text-[15px] backdrop-blur-xl">
+          <p className="mt-6 max-w-prose text-[15px] leading-relaxed text-pulse-5">
             🐣 New grads on this unit are trending{" "}
             <strong>
               {(cohort.unit_avg_support - cohort.cohort_avg_support).toFixed(1)} points below
             </strong>{" "}
             unit average on support ({cohort.cohort_n} of {cohort.unit_n} recent check-ins).
             First-year churn is the most expensive churn — worth a check-in of your own.
-          </div>
+          </p>
         )}
 
-        <section className="mt-6 rounded-[1.6rem] border border-white/15 bg-white/10 p-6 backdrop-blur-xl">
-          <h2 className="text-sm font-semibold uppercase tracking-wider text-white/60">
+        <section className="mt-12">
+          <h2 className="text-xs font-semibold uppercase tracking-[0.14em] text-slate-500">
             12-week trends
           </h2>
-          <div className="mt-3">
+          <div className="mt-4">
             <TrendLines weeks={weekly} />
           </div>
           {latest && (
-            <div className="mt-4 grid grid-cols-2 gap-3 text-center sm:grid-cols-4">
+            <div className="mt-6 grid grid-cols-2 gap-x-6 gap-y-4 sm:grid-cols-4">
               {[
                 ["Break rate", pct(latest.break_rate)],
                 ["Float rate", pct(latest.float_rate)],
                 ["Energy", `${latest.avg_energy}/5`],
                 ["Responses", `${latest.n} this wk`],
               ].map(([label, value]) => (
-                <div key={label} className="rounded-xl bg-black/20 p-3">
-                  <p className="text-lg font-bold">{value}</p>
-                  <p className="text-xs text-white/60">{label}</p>
+                <div key={label}>
+                  <p className="text-2xl font-semibold tracking-tight">{value}</p>
+                  <p className="text-xs uppercase tracking-[0.1em] text-slate-500">{label}</p>
                 </div>
               ))}
             </div>
           )}
         </section>
 
-        <section className="mt-4 rounded-[1.6rem] border border-white/15 bg-white/10 p-6 backdrop-blur-xl">
-          <h2 className="text-sm font-semibold uppercase tracking-wider text-white/60">
+        <section className="mt-12">
+          <h2 className="text-xs font-semibold uppercase tracking-[0.14em] text-slate-500">
             Which shifts hurt
           </h2>
-          <div className="mt-3">
+          <div className="mt-4">
             <ShiftHeatmap rows={shifts} />
           </div>
         </section>
 
-        <section className="mt-4 rounded-[1.6rem] border border-white/15 bg-white/10 p-6 backdrop-blur-xl">
-          <h2 className="text-sm font-semibold uppercase tracking-wider text-white/60">
+        <section className="mt-12">
+          <h2 className="text-xs font-semibold uppercase tracking-[0.14em] text-slate-500">
             What staff are saying <span className="normal-case">· themes, last 4 weeks</span>
           </h2>
           {themes.length === 0 ? (
-            <p className="mt-3 text-sm text-white/50">
+            <p className="mt-3 text-sm text-slate-500">
               No comment themes yet — comments only surface from weeks with 5+
               responses.
             </p>
           ) : (
-            <ul className="mt-3 space-y-2">
+            <ul className="mt-4 space-y-5">
               {themes.map((t) => (
-                <li key={t.theme} className="rounded-xl bg-black/20 p-3">
-                  <p className="text-[15px] font-medium">
-                    {t.theme} <span className="text-white/50">× {t.count}</span>
+                <li key={t.theme}>
+                  <p className="text-[15px] font-semibold">
+                    {t.theme} <span className="font-normal text-slate-500">× {t.count}</span>
                   </p>
                   {t.examples.length > 0 && (
-                    <ul className="mt-1.5 space-y-1 text-sm text-white/60">
+                    <ul className="mt-1.5 space-y-1 text-sm italic text-slate-600">
                       {t.examples.map((e, i) => (
                         <li key={i}>&ldquo;{e}&rdquo;</li>
                       ))}
@@ -180,8 +180,8 @@ export default async function UnitDetailPage({
           )}
         </section>
 
-        <section className="mt-4 rounded-[1.6rem] border border-teal-300/25 bg-teal-500/10 p-6 backdrop-blur-xl">
-          <h2 className="text-sm font-semibold uppercase tracking-wider text-teal-200">
+        <section className="mt-12">
+          <h2 className="text-xs font-semibold uppercase tracking-[0.14em] text-press-deep">
             Actions & receipts <span className="normal-case">· staff see these</span>
           </h2>
           <div className="mt-4">

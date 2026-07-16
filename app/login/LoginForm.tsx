@@ -37,7 +37,7 @@ export default function LoginForm() {
           autoComplete="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className="rounded-xl border border-slate-300 bg-white px-4 py-3 text-base outline-none focus:border-teal-600 dark:border-slate-700 dark:bg-slate-900"
+          className="rounded-sm border border-ink/20 bg-white px-4 py-3 text-base outline-none focus:border-press dark:border-slate-700 dark:bg-slate-900"
         />
       </label>
       <label className="flex flex-col gap-1.5">
@@ -48,14 +48,14 @@ export default function LoginForm() {
           autoComplete="current-password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          className="rounded-xl border border-slate-300 bg-white px-4 py-3 text-base outline-none focus:border-teal-600 dark:border-slate-700 dark:bg-slate-900"
+          className="rounded-sm border border-ink/20 bg-white px-4 py-3 text-base outline-none focus:border-press dark:border-slate-700 dark:bg-slate-900"
         />
       </label>
       {error && <p className="text-sm text-amber-700 dark:text-amber-500">{error}</p>}
       <button
         type="submit"
         disabled={busy}
-        className="mt-2 rounded-xl bg-teal-700 px-4 py-3.5 text-base font-semibold text-white disabled:opacity-50"
+        className="mt-2 rounded-sm bg-press px-4 py-3.5 text-base font-semibold text-white hover:bg-press-deep disabled:opacity-50"
       >
         {busy ? "Signing in…" : "Sign in"}
       </button>

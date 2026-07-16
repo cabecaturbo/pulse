@@ -2,35 +2,39 @@ import Link from "next/link";
 
 export default function Home() {
   return (
-    <main className="mx-auto flex min-h-dvh max-w-md flex-col justify-center gap-8 px-8">
-      <div>
-        <h1 className="text-4xl font-bold tracking-tight">Pulse</h1>
-        <p className="mt-2 text-lg text-slate-500 dark:text-slate-400">
+    <main className="mx-auto flex min-h-dvh max-w-md flex-col justify-center gap-10 px-8">
+      <header>
+        <div className="masthead-rule" />
+        <p className="mt-3 text-xs uppercase tracking-[0.14em] text-slate-500 dark:text-slate-400">
+          The unit weather forecast · anonymous by design
+        </p>
+        <h1 className="mt-4 text-6xl font-semibold tracking-tight">Pulse</h1>
+        <p className="mt-4 text-lg leading-snug text-slate-600 dark:text-slate-300">
           A 30-second anonymous shift check-in for hospital nurses — and a
           plain-language weather forecast for the people who staff the unit.
         </p>
-      </div>
-      <nav className="flex flex-col gap-3">
+      </header>
+      <nav className="flex flex-col gap-4 text-lg">
         <Link
           href="/dashboard"
-          className="rounded-2xl border border-slate-300/50 px-5 py-4 text-lg font-medium dark:border-slate-700"
+          className="font-semibold text-press-deep hover:underline dark:text-press-sky"
         >
           Manager dashboard →
         </Link>
         <Link
           href="/exec"
-          className="rounded-2xl border border-slate-300/50 px-5 py-4 text-lg font-medium dark:border-slate-700"
+          className="font-semibold text-press-deep hover:underline dark:text-press-sky"
         >
           Executive view →
         </Link>
         <Link
           href="/trust"
-          className="rounded-2xl border border-slate-300/50 px-5 py-4 text-lg font-medium dark:border-slate-700"
+          className="font-semibold text-press-deep hover:underline dark:text-press-sky"
         >
           Our promise to staff →
         </Link>
       </nav>
-      <p className="text-sm text-slate-400">
+      <p className="text-sm italic text-slate-500 dark:text-slate-400">
         Nurses: scan the QR poster on your unit to check in. No login, no
         names, ever.
       </p>

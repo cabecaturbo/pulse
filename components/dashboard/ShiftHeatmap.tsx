@@ -13,7 +13,7 @@ export default function ShiftHeatmap({ rows }: { rows: ShiftWeeklyRow[] }) {
 
   const cell = (week: string, shift: "day" | "night") => {
     const row = rows.find((r) => r.week === week && r.shift_type === shift);
-    if (!row) return { color: "rgba(148,163,184,0.08)", title: "below 5-response floor" };
+    if (!row) return { color: "rgba(32,30,29,0.06)", title: "below 5-response floor" };
     const strain =
       ((row.avg_workload - 1) / 4 + (5 - row.avg_energy) / 4 + (1 - row.break_rate)) / 3;
     // teal (calm) -> slate -> amber (strained)
@@ -31,7 +31,7 @@ export default function ShiftHeatmap({ rows }: { rows: ShiftWeeklyRow[] }) {
         <tbody>
           {(["day", "night"] as const).map((shift) => (
             <tr key={shift}>
-              <td className="pr-2 text-xs capitalize text-slate-400">{shift}</td>
+              <td className="pr-2 text-xs capitalize text-slate-500">{shift}</td>
               {weeks.map((w) => {
                 const c = cell(w, shift);
                 return (

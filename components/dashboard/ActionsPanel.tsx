@@ -49,7 +49,7 @@ export default function ActionsPanel({
   return (
     <div>
       {readOnly && (
-        <p className="mb-3 rounded-xl bg-white/10 px-4 py-2.5 text-sm text-white/70">
+        <p className="mb-3 text-sm italic text-slate-600">
           Partnership view: you see exactly what the unit manager sees.
           Posting actions is the manager&apos;s job.
         </p>
@@ -59,35 +59,32 @@ export default function ActionsPanel({
           value={text}
           onChange={(e) => setText(e.target.value.slice(0, 140))}
           placeholder="What did you change? Staff will see this. (140 chars)"
-          className="flex-1 rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-[15px] outline-none placeholder:text-slate-500 focus:border-teal-500"
+          className="flex-1 rounded-sm border border-ink/20 bg-white px-4 py-3 text-[15px] outline-none placeholder:text-slate-500 focus:border-press"
         />
         <button
           onClick={post}
           disabled={busy || !text.trim()}
-          className="rounded-xl bg-teal-600 px-5 py-3 text-[15px] font-semibold text-white disabled:opacity-30"
+          className="rounded-sm bg-press px-5 py-3 text-[15px] font-semibold text-mist hover:bg-press-deep disabled:opacity-30"
         >
           Post
         </button>
       </div>
-      {error && <p className="mt-2 text-sm text-amber-500">{error}</p>}
+      {error && <p className="mt-2 text-sm text-pulse-5">{error}</p>}
 
-      <ol className="mt-5 space-y-3">
+      <ol className="mt-6 space-y-5">
         {ranked.map((a, i) => (
-          <li
-            key={a.id}
-            className="rounded-2xl border border-white/10 bg-white/5 p-4"
-          >
+          <li key={a.id}>
             <div className="flex items-start justify-between gap-3">
-              <p className="text-[15px]">{a.text}</p>
+              <p className="text-[15px] font-semibold">{a.text}</p>
               {i === 0 && ranked.length > 1 && a.score > 0 && (
-                <span className="shrink-0 rounded-full bg-teal-500/20 px-2.5 py-0.5 text-xs font-medium text-teal-300">
+                <span className="shrink-0 text-xs italic text-press-deep">
                   moved the needle most
                 </span>
               )}
             </div>
-            <p className="mt-2 text-xs text-slate-400">
+            <p className="mt-1 text-xs text-slate-500">
               {new Date(a.created_at).toLocaleDateString()} ·{" "}
-              <span className="text-teal-300">{a.helped} helped</span> ·{" "}
+              <span className="text-press-deep">{a.helped} helped</span> ·{" "}
               {a.not_helped} didn&apos;t (yet)
               {a.energyDelta !== null && (
                 <>
@@ -100,7 +97,7 @@ export default function ActionsPanel({
           </li>
         ))}
         {ranked.length === 0 && (
-          <p className="text-sm text-slate-400">
+          <p className="text-sm text-slate-500">
             No actions posted yet. When you change something because of a
             forecast, post it — staff see it on their thank-you screen and can
             tell you if it helped.

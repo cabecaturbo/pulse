@@ -37,22 +37,22 @@ export default function CreateUnitForm({ hospitalId }: { hospitalId: string }) {
         onChange={(e) => setName(e.target.value)}
         placeholder="Unit name (e.g. 5-East)"
         required
-        className="flex-1 rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm outline-none placeholder:text-slate-500 focus:border-teal-500"
+        className="flex-1 rounded-sm border border-ink/20 bg-white px-4 py-2.5 text-sm outline-none placeholder:text-slate-500 focus:border-press"
       />
       <input
         value={code}
         onChange={(e) => setCode(e.target.value)}
         placeholder="join code (e.g. 5east)"
         required
-        className="w-40 rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm outline-none placeholder:text-slate-500 focus:border-teal-500"
+        className="w-40 rounded-sm border border-ink/20 bg-white px-4 py-2.5 text-sm outline-none placeholder:text-slate-500 focus:border-press"
       />
       <button
         disabled={busy}
-        className="rounded-xl bg-white/10 px-4 py-2.5 text-sm font-semibold disabled:opacity-40"
+        className="rounded-sm border border-ink/20 px-4 py-2.5 text-sm font-semibold hover:bg-ink/5 disabled:opacity-40"
       >
         Add unit
       </button>
-      {error && <p className="w-full text-sm text-amber-500">{error}</p>}
+      {error && <p className="w-full text-sm text-pulse-5">{error}</p>}
     </form>
   );
 }

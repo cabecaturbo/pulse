@@ -4,10 +4,11 @@ export const metadata = { title: "Pulse — our promise" };
 export default function TrustPage() {
   return (
     <main className="mx-auto max-w-md px-6 pb-16 pt-12">
-      <p className="text-sm font-medium uppercase tracking-widest text-teal-600 dark:text-teal-400">
+      <div className="masthead-rule" />
+      <p className="mt-3 text-sm font-semibold uppercase tracking-[0.14em] text-press-deep dark:text-press-sky">
         The promise
       </p>
-      <h1 className="mt-1 text-3xl font-bold tracking-tight">
+      <h1 className="mt-2 text-3xl font-semibold tracking-tight">
         How Pulse keeps you anonymous
       </h1>
 

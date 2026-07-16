@@ -1,9 +1,11 @@
 import type { WeeklyRow } from "@/lib/forecast/types";
 
+/* Press inks on paper: cyan carries the headline series, neutral ink and
+   the pulse amber carry the rest. */
 const SERIES: { key: keyof WeeklyRow; label: string; color: string }[] = [
-  { key: "avg_energy", label: "Energy", color: "#2dd4bf" },
-  { key: "avg_support", label: "Support", color: "#93c5fd" },
-  { key: "avg_workload", label: "Workload", color: "#fbbf24" },
+  { key: "avg_energy", label: "Energy", color: "#0088b0" },
+  { key: "avg_support", label: "Support", color: "#605d5d" },
+  { key: "avg_workload", label: "Workload", color: "#b45309" },
 ];
 
 /** 12-week trend lines as a dependency-free inline SVG. */
@@ -32,7 +34,7 @@ export default function TrendLines({ weeks }: { weeks: WeeklyRow[] }) {
             x2={W - PAD}
             y1={y(g)}
             y2={y(g)}
-            stroke="rgba(148,163,184,0.15)"
+            stroke="rgba(32,30,29,0.12)"
             strokeWidth="1"
           />
         ))}
@@ -48,7 +50,7 @@ export default function TrendLines({ weeks }: { weeks: WeeklyRow[] }) {
           />
         ))}
       </svg>
-      <div className="mt-1 flex gap-5 text-xs text-slate-400">
+      <div className="mt-1 flex gap-5 text-xs text-slate-500">
         {SERIES.map((s) => (
           <span key={s.key} className="flex items-center gap-1.5">
             <span className="inline-block h-2 w-2 rounded-full" style={{ background: s.color }} />

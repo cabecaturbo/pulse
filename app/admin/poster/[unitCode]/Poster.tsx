@@ -17,7 +17,7 @@ export default function Poster({ code }: { code: string }) {
   useEffect(() => {
     setOrigin(window.location.origin);
     const url = `${window.location.origin}/p/${code}`;
-    QRCode.toDataURL(url, { width: 640, margin: 1, color: { dark: "#0b1220" } }).then(setQr);
+    QRCode.toDataURL(url, { width: 640, margin: 1, color: { dark: "#201e1d" } }).then(setQr);
     fetchUnit(code).then(setUnit);
   }, [code]);
 
