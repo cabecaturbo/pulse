@@ -5,16 +5,16 @@ export default function Home() {
     <main className="mx-auto flex min-h-dvh max-w-md flex-col justify-center gap-12 px-8">
       <header>
         <div className="masthead-rule" />
-        <p className="mt-3 text-xs uppercase tracking-[0.14em] text-slate-500 dark:text-slate-400">
+        <p className="mt-6 text-xs uppercase tracking-[0.14em] text-slate-500 dark:text-slate-400">
           The unit weather forecast · anonymous by design
         </p>
-        <h1 className="mt-4 text-6xl font-semibold tracking-tight">Pulse</h1>
-        <p className="mt-4 text-lg leading-snug text-slate-600 dark:text-slate-300">
+        <h1 className="mt-2 text-6xl font-semibold tracking-tight">Pulse</h1>
+        <p className="mt-4 text-lg text-slate-600 dark:text-slate-300">
           A 30-second anonymous shift check-in for hospital nurses — and a
           plain-language weather forecast for the people who staff the unit.
         </p>
       </header>
-      <nav className="flex flex-col gap-4 text-lg">
+      <nav className="flex flex-col gap-6 text-lg">
         <Link
           href="/dashboard"
           className="font-semibold text-press-deep hover:underline dark:text-press-sky"

@@ -67,7 +67,7 @@ export default function Receipt({
   const contextLine = unitContextLine(context);
 
   return (
-    <div className="mx-auto flex min-h-dvh max-w-md flex-col gap-6 px-6 pb-12 pt-[max(2rem,env(safe-area-inset-top))]">
+    <div className="mx-auto flex min-h-dvh max-w-md flex-col gap-8 px-6 pb-12 pt-[max(2rem,env(safe-area-inset-top))]">
       <div>
         <p className="text-sm font-medium uppercase tracking-widest text-teal-400">
           Shift receipt
@@ -120,17 +120,17 @@ export default function Receipt({
           <div className="mt-3 grid grid-cols-3 gap-3 text-center">
             <div>
               <p className="text-2xl font-bold">{stats.shiftsLogged}</p>
-              <p className="text-xs text-slate-400">shifts logged</p>
+              <p className="mt-1 text-xs text-slate-400">shifts logged</p>
             </div>
             <div>
               <p className="text-2xl font-bold">
                 {stats.breakRatePct === null ? "—" : `${stats.breakRatePct}%`}
               </p>
-              <p className="text-xs text-slate-400">break rate</p>
+              <p className="mt-1 text-xs text-slate-400">break rate</p>
             </div>
             <div>
               <p className="text-2xl font-bold">{stats.hardestStretch ?? "—"}</p>
-              <p className="text-xs text-slate-400">hardest stretch this month</p>
+              <p className="mt-1 text-xs text-slate-400">hardest stretch this month</p>
             </div>
           </div>
         </section>

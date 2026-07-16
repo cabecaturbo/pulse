@@ -5,14 +5,14 @@ export default function TrustPage() {
   return (
     <main className="mx-auto max-w-md px-6 pb-16 pt-12">
       <div className="masthead-rule" />
-      <p className="mt-3 text-sm font-semibold uppercase tracking-[0.14em] text-press-deep dark:text-press-sky">
+      <p className="mt-6 text-sm font-semibold uppercase tracking-[0.14em] text-press-deep dark:text-press-sky">
         The promise
       </p>
       <h1 className="mt-2 text-3xl font-semibold tracking-tight">
         How Pulse keeps you anonymous
       </h1>
 
-      <section className="mt-8">
+      <section className="mt-12">
         <h2 className="text-lg font-semibold">What we collect</h2>
         <ul className="mt-2 space-y-2 text-[17px] text-slate-600 dark:text-slate-300">
           <li>• Three numbers: workload, support, energy</li>
@@ -25,7 +25,7 @@ export default function TrustPage() {
         </p>
       </section>
 
-      <section className="mt-8">
+      <section className="mt-12">
         <h2 className="text-lg font-semibold">What we never collect</h2>
         <ul className="mt-2 space-y-2 text-[17px] text-slate-600 dark:text-slate-300">
           <li>• Your name. There is no login for nurses.</li>
@@ -38,7 +38,7 @@ export default function TrustPage() {
         </p>
       </section>
 
-      <section className="mt-8">
+      <section className="mt-12">
         <h2 className="text-lg font-semibold">The 5-response rule</h2>
         <p className="mt-2 text-[17px] text-slate-600 dark:text-slate-300">
           Nobody sees anything about any group until at least 5 people in that
@@ -49,7 +49,7 @@ export default function TrustPage() {
         </p>
       </section>
 
-      <section className="mt-8">
+      <section className="mt-12">
         <h2 className="text-lg font-semibold">Same view for your rep</h2>
         <p className="mt-2 text-[17px] text-slate-600 dark:text-slate-300">
           If your unit has a staff or union rep on Pulse, they see the exact

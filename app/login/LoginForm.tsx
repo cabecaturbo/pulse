@@ -28,7 +28,7 @@ export default function LoginForm() {
   }
 
   return (
-    <form onSubmit={onSubmit} className="mt-8 flex flex-col gap-4">
+    <form onSubmit={onSubmit} className="mt-12 flex flex-col gap-6">
       <label className="flex flex-col gap-2">
         <span className="text-sm font-medium">Email</span>
         <input
@@ -55,7 +55,7 @@ export default function LoginForm() {
       <button
         type="submit"
         disabled={busy}
-        className="mt-2 rounded-sm bg-press px-4 py-4 text-base font-semibold text-white hover:bg-press-deep disabled:opacity-50"
+        className="rounded-sm bg-press px-4 py-4 text-base font-semibold text-white hover:bg-press-deep disabled:opacity-50"
       >
         {busy ? "Signing in…" : "Sign in"}
       </button>

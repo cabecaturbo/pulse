@@ -48,7 +48,7 @@ export default async function DashboardPage() {
       <div className="mx-auto max-w-2xl">
         <header className="mb-12">
           <div className="masthead-rule" />
-          <div className="mt-3 flex items-baseline justify-between">
+          <div className="mt-6 flex items-baseline justify-between">
             <div>
               <h1 className="text-4xl font-semibold tracking-tight">Unit forecast</h1>
               <p className="mt-1 text-sm text-slate-500">

@@ -93,7 +93,7 @@ export default function DemoWorld() {
       <div className="mx-auto max-w-2xl">
         <header>
           <div className="masthead-rule" />
-          <p className="mt-3 text-xs font-semibold uppercase tracking-[0.14em] text-press-deep">
+          <p className="mt-6 text-xs font-semibold uppercase tracking-[0.14em] text-press-deep">
             Live demo · synthetic data
           </p>
           <h1 className="mt-2 text-4xl font-semibold tracking-tight">

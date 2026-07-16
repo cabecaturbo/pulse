@@ -25,7 +25,7 @@ export default function CommentStep({
         placeholder="e.g. Two call-outs tonight and no float coverage"
         className="mt-6 w-full rounded-2xl border border-white/10 bg-white/5 p-4 text-[17px] text-mist outline-none placeholder:text-slate-500 focus:border-teal-500"
       />
-      <p className="mt-2 text-right text-sm text-slate-500">{text.length}/120</p>
+      <p className="mt-1 text-right text-sm text-slate-500">{text.length}/120</p>
 
       <div className="mt-auto flex flex-col gap-2">
         <button

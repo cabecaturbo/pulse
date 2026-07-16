@@ -95,7 +95,7 @@ export default async function UnitDetailPage({
 
         <header className="mt-6">
           <div className="masthead-rule" />
-          <p className="mt-3 flex items-baseline gap-3 text-xs font-semibold uppercase tracking-[0.14em]">
+          <p className="mt-6 flex items-baseline gap-3 text-xs font-semibold uppercase tracking-[0.14em]">
             <span className="text-slate-500">{unit.name}</span>
             <span className={severityTone(forecast.severity)}>
               {severityLabel(forecast.severity)}
@@ -135,7 +135,7 @@ export default async function UnitDetailPage({
               ].map(([label, value]) => (
                 <div key={label}>
                   <p className="text-2xl font-semibold tracking-tight">{value}</p>
-                  <p className="text-xs uppercase tracking-[0.1em] text-slate-500">{label}</p>
+                  <p className="mt-1 text-xs uppercase tracking-[0.1em] text-slate-500">{label}</p>
                 </div>
               ))}
             </div>
