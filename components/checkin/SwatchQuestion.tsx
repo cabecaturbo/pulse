@@ -40,7 +40,7 @@ export default function SwatchQuestion({
             <button
               key={value}
               onClick={() => pick(value)}
-              className={`flex flex-1 items-center justify-between rounded-2xl px-6 text-left text-[17px] font-semibold text-white ${
+              className={`letterpress flex flex-1 items-center justify-between rounded-2xl px-6 text-left text-[17px] font-semibold text-white ${
                 picked === value ? "tap-spring" : ""
               }`}
               style={{

@@ -59,7 +59,7 @@ export default async function AdminPage() {
                     </div>
                     <Link
                       href={`/admin/poster/${u.join_code}`}
-                      className="text-sm font-semibold text-press-deep hover:underline"
+                      className="text-sm font-semibold underline underline-offset-4"
                     >
                       QR poster →
                     </Link>

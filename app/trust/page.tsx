@@ -5,7 +5,7 @@ export default function TrustPage() {
   return (
     <main className="mx-auto max-w-md px-6 pb-16 pt-12">
       <div className="masthead-rule" />
-      <p className="mt-6 text-sm font-semibold uppercase tracking-[0.14em] text-press-deep dark:text-press-sky">
+      <p className="mt-6 text-sm font-semibold uppercase tracking-[0.14em] text-slate-500 dark:text-slate-400">
         The promise
       </p>
       <h1 className="mt-2 text-3xl font-semibold tracking-tight">

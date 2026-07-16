@@ -89,7 +89,7 @@ export default async function UnitDetailPage({
   return (
     <main className="min-h-dvh bg-mist px-8 pb-16 pt-12 text-ink">
       <div className="mx-auto max-w-2xl">
-        <Link href="/dashboard" className="text-sm text-press-deep hover:underline">
+        <Link href="/dashboard" className="text-sm underline underline-offset-4">
           ← All units
         </Link>
 
@@ -181,7 +181,7 @@ export default async function UnitDetailPage({
         </section>
 
         <section className="mt-12">
-          <h2 className="text-xs font-semibold uppercase tracking-[0.14em] text-press-deep">
+          <h2 className="text-xs font-semibold uppercase tracking-[0.14em] text-slate-500">
             Actions & receipts <span className="normal-case">· staff see these</span>
           </h2>
           <div className="mt-4">

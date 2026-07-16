@@ -86,7 +86,7 @@ export default async function ExecPage({
           <p className="text-xs font-semibold uppercase tracking-[0.14em] text-slate-500">
             Turnover dollars at risk · this quarter
           </p>
-          <p className="mt-1 text-6xl font-semibold tracking-tight text-press-2">
+          <p className="mt-1 text-6xl font-semibold tracking-tight">
             {fmtMoney(dollars)}
           </p>
           <p className="mt-2 text-[15px] text-slate-600">
@@ -111,7 +111,7 @@ export default async function ExecPage({
               className={
                 (label === "All" && !shiftFilter) ||
                 label.toLowerCase() === shiftFilter
-                  ? "font-semibold text-press-deep underline"
+                  ? "font-semibold underline underline-offset-4"
                   : "text-slate-600 hover:underline"
               }
             >
@@ -138,13 +138,13 @@ export default async function ExecPage({
                   <td className="py-4 pr-6 font-semibold">
                     {row.unit_name}
                     {best?.unit_id === row.unit_id && (
-                      <span className="ml-2 text-xs font-normal italic text-press-deep">
+                      <span className="ml-2 text-xs font-normal italic text-slate-500">
                         strongest
                       </span>
                     )}
                     {mostImproved?.unit_id === row.unit_id &&
                       trendDelta(row)! > 0.15 && (
-                        <span className="ml-2 text-xs font-normal italic text-press-deep">
+                        <span className="ml-2 text-xs font-normal italic text-slate-500">
                           most improved
                         </span>
                       )}
@@ -154,7 +154,7 @@ export default async function ExecPage({
                     {delta === null ? (
                       <span className="text-slate-500">new</span>
                     ) : (
-                      <span className={delta >= 0 ? "text-press-deep" : "text-pulse-5"}>
+                      <span className={delta >= 0 ? "text-slate-600" : "text-pulse-5"}>
                         {delta > 0 ? "▲" : delta < 0 ? "▼" : "—"} {Math.abs(delta)}
                       </span>
                     )}

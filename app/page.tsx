@@ -17,19 +17,19 @@ export default function Home() {
       <nav className="flex flex-col gap-6 text-lg">
         <Link
           href="/dashboard"
-          className="font-semibold text-press-deep hover:underline dark:text-press-sky"
+          className="letterpress font-semibold underline decoration-ink/30 underline-offset-4 hover:decoration-ink dark:decoration-mist/40 dark:hover:decoration-mist"
         >
           Manager dashboard →
         </Link>
         <Link
           href="/exec"
-          className="font-semibold text-press-deep hover:underline dark:text-press-sky"
+          className="letterpress font-semibold underline decoration-ink/30 underline-offset-4 hover:decoration-ink dark:decoration-mist/40 dark:hover:decoration-mist"
         >
           Executive view →
         </Link>
         <Link
           href="/trust"
-          className="font-semibold text-press-deep hover:underline dark:text-press-sky"
+          className="letterpress font-semibold underline decoration-ink/30 underline-offset-4 hover:decoration-ink dark:decoration-mist/40 dark:hover:decoration-mist"
         >
           Our promise to staff →
         </Link>

@@ -23,7 +23,7 @@ export default function CommentStep({
         rows={4}
         autoFocus={false}
         placeholder="e.g. Two call-outs tonight and no float coverage"
-        className="mt-6 w-full rounded-2xl border border-white/10 bg-white/5 p-4 text-[17px] text-mist outline-none placeholder:text-slate-500 focus:border-teal-500"
+        className="mt-6 w-full rounded-2xl border border-white/10 bg-white/5 p-4 text-[17px] text-mist outline-none placeholder:text-slate-500 focus:border-mist/60"
       />
       <p className="mt-1 text-right text-sm text-slate-500">{text.length}/120</p>
 
@@ -33,7 +33,7 @@ export default function CommentStep({
             navigator.vibrate?.(12);
             onDone(text.trim() ? text.trim() : null);
           }}
-          className="w-full rounded-2xl bg-teal-600 py-4 text-[17px] font-semibold text-white"
+          className="letterpress w-full rounded-2xl bg-mist py-4 text-[17px] font-semibold text-ink"
         >
           {text.trim() ? "Send it" : "Send without a comment"}
         </button>

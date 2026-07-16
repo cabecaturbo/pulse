@@ -24,7 +24,7 @@ export default function Poster({ code }: { code: string }) {
   return (
     <main className="flex min-h-dvh items-center justify-center bg-slate-200 p-6 print:bg-white print:p-0">
       <div className="w-full max-w-[210mm] bg-white p-16 text-slate-900 shadow-2xl print:shadow-none">
-        <p className="text-center text-sm font-semibold uppercase tracking-[0.3em] text-teal-700">
+        <p className="text-center text-sm font-semibold uppercase tracking-[0.3em] text-slate-500">
           Pulse · {unit ? unit.unit_name : code}
         </p>
         <h1 className="mt-4 text-center text-5xl font-bold leading-tight tracking-tight">
@@ -56,7 +56,7 @@ export default function Poster({ code }: { code: string }) {
 
         <button
           onClick={() => window.print()}
-          className="mx-auto mt-12 block rounded-xl bg-teal-700 px-6 py-3 font-semibold text-white print:hidden"
+          className="letterpress mx-auto mt-12 block rounded-xl bg-ink px-6 py-3 font-semibold text-mist print:hidden"
         >
           Print this poster
         </button>

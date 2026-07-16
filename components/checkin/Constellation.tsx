@@ -56,7 +56,7 @@ export default function Constellation({
       for (const d of dots) {
         ctx.beginPath();
         ctx.arc(d.x, d.y, 2.2, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(148, 210, 205, ${0.15 + 0.5 * ease * d.tw})`;
+        ctx.fillStyle = `rgba(243, 242, 242, ${0.15 + 0.5 * ease * d.tw})`;
         ctx.fill();
       }
 
@@ -64,8 +64,8 @@ export default function Constellation({
       const myX = w / 2 + (dots[0].x - w / 2) * ease;
       const myY = h * 0.85 + (dots[0].y - h * 0.85) * ease;
       const glow = ctx.createRadialGradient(myX, myY, 0, myX, myY, 18);
-      glow.addColorStop(0, "rgba(20, 184, 166, 0.9)");
-      glow.addColorStop(1, "rgba(20, 184, 166, 0)");
+      glow.addColorStop(0, "rgba(243, 242, 242, 0.9)");
+      glow.addColorStop(1, "rgba(243, 242, 242, 0)");
       ctx.beginPath();
       ctx.arc(myX, myY, 18, 0, Math.PI * 2);
       ctx.fillStyle = glow;

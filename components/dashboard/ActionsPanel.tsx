@@ -59,12 +59,12 @@ export default function ActionsPanel({
           value={text}
           onChange={(e) => setText(e.target.value.slice(0, 140))}
           placeholder="What did you change? Staff will see this. (140 chars)"
-          className="flex-1 rounded-sm border border-ink/20 bg-white px-4 py-3 text-[15px] outline-none placeholder:text-slate-500 focus:border-press"
+          className="flex-1 rounded-sm border border-ink/20 bg-white px-4 py-3 text-[15px] outline-none placeholder:text-slate-500 focus:border-ink/60"
         />
         <button
           onClick={post}
           disabled={busy || !text.trim()}
-          className="rounded-sm bg-press px-6 py-3 text-[15px] font-semibold text-mist hover:bg-press-deep disabled:opacity-30"
+          className="letterpress rounded-sm bg-ink px-6 py-3 text-[15px] font-semibold text-mist disabled:opacity-30"
         >
           Post
         </button>
@@ -77,14 +77,14 @@ export default function ActionsPanel({
             <div className="flex items-start justify-between gap-3">
               <p className="text-[15px] font-semibold">{a.text}</p>
               {i === 0 && ranked.length > 1 && a.score > 0 && (
-                <span className="shrink-0 text-xs italic text-press-deep">
+                <span className="shrink-0 text-xs italic text-slate-500">
                   moved the needle most
                 </span>
               )}
             </div>
             <p className="mt-1 text-xs text-slate-500">
               {new Date(a.created_at).toLocaleDateString()} ·{" "}
-              <span className="text-press-deep">{a.helped} helped</span> ·{" "}
+              <span className="font-semibold text-ink">{a.helped} helped</span> ·{" "}
               {a.not_helped} didn&apos;t (yet)
               {a.energyDelta !== null && (
                 <>

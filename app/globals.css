@@ -78,12 +78,22 @@ body {
 }
 
 ::selection {
-  background: color-mix(in srgb, var(--color-press) 30%, transparent);
+  background: color-mix(in srgb, currentColor 25%, transparent);
 }
 
 :focus-visible {
-  outline: 2px solid var(--color-press);
+  outline: 2px solid currentColor;
   outline-offset: 2px;
+}
+
+/* Light logic: flat surfaces, but pressing IN obeys physics — slightly
+   darker with a 1px inset feel (the letterpress). The one pressed-state
+   treatment for every button in the app. Never a glow, never an outward
+   shadow. */
+.letterpress:active:not(:disabled) {
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.35);
+  filter: brightness(0.94);
+  transform: translateY(1px);
 }
 
 /* Front-page furniture: the one place rules print — a thick-thin head

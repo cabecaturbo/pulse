@@ -93,7 +93,7 @@ export default function DemoWorld() {
       <div className="mx-auto max-w-2xl">
         <header>
           <div className="masthead-rule" />
-          <p className="mt-6 text-xs font-semibold uppercase tracking-[0.14em] text-press-deep">
+          <p className="mt-6 text-xs font-semibold uppercase tracking-[0.14em] text-slate-500">
             Live demo · synthetic data
           </p>
           <h1 className="mt-2 text-4xl font-semibold tracking-tight">
@@ -103,7 +103,7 @@ export default function DemoWorld() {
             Every number below came through the same k-anonymity floor real
             hospitals get: nothing shows for any group under 5 responses. Try
             the nurse side at{" "}
-            <Link href="/p/demo-icu" className="text-press-deep underline">
+            <Link href="/p/demo-icu" className="underline underline-offset-4">
               /p/demo-icu
             </Link>
             .
@@ -117,7 +117,7 @@ export default function DemoWorld() {
           <p className="text-xs font-semibold uppercase tracking-[0.14em] text-slate-500">
             Turnover dollars at risk · this quarter
           </p>
-          <p className="mt-1 text-6xl font-semibold tracking-tight text-press-2">
+          <p className="mt-1 text-6xl font-semibold tracking-tight">
             {fmtMoney(dollars)}
           </p>
           <p className="mt-2 text-[15px] text-slate-600">
@@ -162,7 +162,7 @@ export default function DemoWorld() {
         </div>
 
         <p className="mt-16 text-center text-sm text-slate-500">
-          <Link href="/trust" className="text-press-deep underline">
+          <Link href="/trust" className="underline underline-offset-4">
             The privacy promise
           </Link>{" "}
           · every screen in this demo respects it

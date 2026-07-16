@@ -33,9 +33,9 @@ function BigToggle({
               navigator.vibrate?.(10);
               onChange(v);
             }}
-            className={`rounded-2xl py-4 text-[17px] font-semibold transition-colors ${
+            className={`letterpress rounded-2xl py-4 text-[17px] font-semibold transition-colors ${
               value === v
-                ? "bg-teal-600 text-white"
+                ? "bg-mist text-ink"
                 : "bg-white/10 text-mist"
             }`}
           >
@@ -59,7 +59,7 @@ export default function Toggles({ shiftType, onDone }: TogglesProps) {
     <div className="flex min-h-dvh flex-col gap-8 px-6 pb-8 pt-[max(1.5rem,env(safe-area-inset-top))]">
       <button
         onClick={() => setShift(shift === "day" ? "night" : "day")}
-        className="self-start rounded-full bg-white/10 px-4 py-2 text-sm font-medium"
+        className="letterpress self-start rounded-full bg-white/10 px-4 py-2 text-sm font-medium"
       >
         {shift === "day" ? "☀️ Day shift" : "🌙 Night shift"} · tap to switch
       </button>
@@ -76,7 +76,7 @@ export default function Toggles({ shiftType, onDone }: TogglesProps) {
           type="checkbox"
           checked={newGrad}
           onChange={(e) => setNewGrad(e.target.checked)}
-          className="h-5 w-5 accent-teal-600"
+          className="h-5 w-5 accent-mist"
         />
         I&apos;m in my first year as a nurse
       </label>
@@ -92,7 +92,7 @@ export default function Toggles({ shiftType, onDone }: TogglesProps) {
               shift_type: shift,
             })
           }
-          className="w-full rounded-2xl bg-teal-600 py-4 text-[17px] font-semibold text-white disabled:opacity-30"
+          className="letterpress w-full rounded-2xl bg-mist py-4 text-[17px] font-semibold text-ink disabled:opacity-30"
         >
           Continue
         </button>

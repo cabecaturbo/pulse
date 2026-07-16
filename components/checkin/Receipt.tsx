@@ -69,12 +69,12 @@ export default function Receipt({
   return (
     <div className="mx-auto flex min-h-dvh max-w-md flex-col gap-8 px-6 pb-12 pt-[max(2rem,env(safe-area-inset-top))]">
       <div>
-        <p className="text-sm font-medium uppercase tracking-widest text-teal-400">
+        <p className="text-sm font-medium uppercase tracking-widest text-slate-400">
           Shift receipt
         </p>
         <h1 className="mt-1 text-3xl font-bold">Thanks. That counted.</h1>
         {queued && (
-          <p className="mt-2 rounded-xl bg-teal-950/60 px-4 py-3 text-[15px] text-teal-200">
+          <p className="mt-2 rounded-xl bg-white/10 px-4 py-3 text-[15px] text-slate-300">
             Saved — will send when you&apos;re back in signal.
           </p>
         )}
@@ -143,8 +143,8 @@ export default function Receipt({
 
       {/* you-said-we-did */}
       {latestAction && (
-        <section className="rounded-3xl border border-teal-500/20 bg-teal-950/40 p-6">
-          <h2 className="text-sm font-semibold uppercase tracking-wider text-teal-300">
+        <section className="rounded-3xl border border-white/10 bg-white/5 p-6">
+          <h2 className="text-sm font-semibold uppercase tracking-wider text-slate-400">
             Your manager acted on this
           </h2>
           <p className="mt-2 text-[17px]">{latestAction.action_text}</p>
@@ -152,19 +152,19 @@ export default function Receipt({
             <div className="mt-4 grid grid-cols-2 gap-2">
               <button
                 onClick={() => vote(true)}
-                className="rounded-xl bg-teal-600 py-3 text-[15px] font-semibold text-white"
+                className="letterpress rounded-xl bg-mist py-3 text-[15px] font-semibold text-ink"
               >
                 Helped
               </button>
               <button
                 onClick={() => vote(false)}
-                className="rounded-xl bg-white/10 py-3 text-[15px] font-semibold"
+                className="letterpress rounded-xl bg-white/10 py-3 text-[15px] font-semibold"
               >
                 Didn&apos;t help yet
               </button>
             </div>
           ) : (
-            <p className="mt-3 text-sm text-teal-300">Noted — anonymously, like everything here.</p>
+            <p className="mt-3 text-sm text-slate-300">Noted — anonymously, like everything here.</p>
           )}
         </section>
       )}
