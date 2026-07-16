@@ -1,11 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 
 export default function LoginForm() {
-  const router = useRouter();
   const params = useSearchParams();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -23,8 +22,12 @@ export default function LoginForm() {
       setBusy(false);
       return;
     }
-    router.push(params.get("next") ?? "/dashboard");
-    router.refresh();
+    // Full navigation, not router.push: client-side RSC navigation right
+    // after the auth cookie lands is flaky on iOS Safari / installed PWAs
+    // (the push gets cancelled and the form spins forever). A hard
+    // navigation re-runs the middleware with the fresh session every time.
+    const next = params.get("next") ?? "/dashboard";
+    window.location.assign(next.startsWith("/") ? next : "/dashboard");
   }
 
   return (
