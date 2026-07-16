@@ -11,14 +11,23 @@ export const dynamic = "force-dynamic";
 export default async function DashboardPage() {
   const supabase = await createClient();
 
-  const { data: links } = await supabase
-    .from("manager_units")
-    .select("unit_id, units(id, name, join_code)");
+  const [{ data: links }, { data: repLinks }] = await Promise.all([
+    supabase.from("manager_units").select("unit_id, units(id, name, join_code)"),
+    supabase.from("unit_reps").select("unit_id, units(id, name, join_code)"),
+  ]);
 
-  const units =
-    (links ?? [])
-      .map((l) => l.units as unknown as { id: string; name: string; join_code: string })
-      .filter(Boolean) ?? [];
+  type UnitRow = { id: string; name: string; join_code: string };
+  const managed = (links ?? [])
+    .map((l) => l.units as unknown as UnitRow)
+    .filter(Boolean);
+  const repped = (repLinks ?? [])
+    .map((l) => l.units as unknown as UnitRow)
+    .filter(Boolean)
+    .filter((u) => !managed.some((m) => m.id === u.id));
+  const units = [
+    ...managed.map((u) => ({ ...u, repView: false })),
+    ...repped.map((u) => ({ ...u, repView: true })),
+  ];
 
   const cards = await Promise.all(
     units.map(async (unit) => {
@@ -62,7 +71,14 @@ export default async function DashboardPage() {
             >
               <div className="rounded-[1.6rem] border border-white/15 bg-white/10 p-6 shadow-2xl backdrop-blur-xl">
                 <div className="flex items-center justify-between">
-                  <h2 className="text-lg font-semibold">{unit.name}</h2>
+                  <h2 className="text-lg font-semibold">
+                    {unit.name}
+                    {unit.repView && (
+                      <span className="ml-2 rounded-full bg-white/15 px-2.5 py-0.5 text-[11px] font-medium text-white/80">
+                        partnership view
+                      </span>
+                    )}
+                  </h2>
                   <span className="rounded-full bg-black/25 px-3 py-1 text-xs font-medium">
                     {severityLabel(forecast.severity)}
                   </span>

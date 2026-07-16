@@ -40,11 +40,13 @@ export default function Receipt({
   queued,
   context,
   latestAction,
+  hasRep = false,
 }: {
   answers: CheckinAnswers;
   queued: boolean;
   context: UnitWeekContext[];
   latestAction: LatestAction | null;
+  hasRep?: boolean;
 }) {
   const [stats, setStats] = useState<PersonalStats | null>(null);
   const [voted, setVoted] = useState<null | boolean>(null);
@@ -165,6 +167,12 @@ export default function Receipt({
             <p className="mt-3 text-sm text-teal-300">Noted — anonymously, like everything here.</p>
           )}
         </section>
+      )}
+
+      {hasRep && (
+        <p className="rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-center text-sm text-slate-300">
+          🤝 Your unit rep sees the same dashboard your manager does.
+        </p>
       )}
 
       <a href="/trust" className="mt-auto text-center text-sm text-slate-500 underline">

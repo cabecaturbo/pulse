@@ -158,6 +158,7 @@ export default function CheckinFlow({ code }: { code: string }) {
           queued={queued}
           context={context}
           latestAction={latestAction}
+          hasRep={unit?.has_rep ?? false}
         />
       )}
 

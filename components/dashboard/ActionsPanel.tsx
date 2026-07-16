@@ -12,9 +12,12 @@ import type { RankedAction } from "@/lib/forecast/actions";
 export default function ActionsPanel({
   unitId,
   ranked,
+  readOnly = false,
 }: {
   unitId: string;
   ranked: RankedAction[];
+  /** Partnership (rep) view: same data, no posting. */
+  readOnly?: boolean;
 }) {
   const router = useRouter();
   const [text, setText] = useState("");
@@ -45,7 +48,13 @@ export default function ActionsPanel({
 
   return (
     <div>
-      <div className="flex gap-2">
+      {readOnly && (
+        <p className="mb-3 rounded-xl bg-white/10 px-4 py-2.5 text-sm text-white/70">
+          Partnership view: you see exactly what the unit manager sees.
+          Posting actions is the manager&apos;s job.
+        </p>
+      )}
+      <div className={readOnly ? "hidden" : "flex gap-2"}>
         <input
           value={text}
           onChange={(e) => setText(e.target.value.slice(0, 140))}

@@ -17,6 +17,7 @@ export interface UnitInfo {
   hospital_name: string;
   day_shift_start: string;
   night_shift_start: string;
+  has_rep: boolean;
 }
 
 export interface UnitWeekContext {

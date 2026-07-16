@@ -31,6 +31,14 @@ export default async function UnitDetailPage({
     .single();
   if (!unit) notFound();
 
+  // Unit reps get the identical view, minus the ability to post actions.
+  const { data: managerLink } = await supabase
+    .from("manager_units")
+    .select("unit_id")
+    .eq("unit_id", unitId)
+    .maybeSingle();
+  const readOnly = !managerLink;
+
   const [
     { data: weeklyRaw },
     { data: shiftRaw },
@@ -177,7 +185,7 @@ export default async function UnitDetailPage({
             Actions & receipts <span className="normal-case">· staff see these</span>
           </h2>
           <div className="mt-4">
-            <ActionsPanel unitId={unitId} ranked={ranked} />
+            <ActionsPanel unitId={unitId} ranked={ranked} readOnly={readOnly} />
           </div>
         </section>
       </div>
