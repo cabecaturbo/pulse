@@ -25,7 +25,7 @@ function BigToggle({
   return (
     <div>
       <p className="mb-2 text-[17px] font-semibold">{label}</p>
-      <div className="grid grid-cols-2 gap-2.5">
+      <div className="grid grid-cols-2 gap-2">
         {[true, false].map((v) => (
           <button
             key={String(v)}
@@ -56,10 +56,10 @@ export default function Toggles({ shiftType, onDone }: TogglesProps) {
   const ready = gotBreak !== null && floated !== null;
 
   return (
-    <div className="flex min-h-dvh flex-col gap-7 px-5 pb-8 pt-[max(1.5rem,env(safe-area-inset-top))]">
+    <div className="flex min-h-dvh flex-col gap-8 px-6 pb-8 pt-[max(1.5rem,env(safe-area-inset-top))]">
       <button
         onClick={() => setShift(shift === "day" ? "night" : "day")}
-        className="self-start rounded-full bg-white/10 px-4 py-1.5 text-sm font-medium"
+        className="self-start rounded-full bg-white/10 px-4 py-2 text-sm font-medium"
       >
         {shift === "day" ? "☀️ Day shift" : "🌙 Night shift"} · tap to switch
       </button>

@@ -30,9 +30,9 @@ export default function SwatchQuestion({
   }
 
   return (
-    <div className="flex min-h-dvh flex-col px-5 pb-6 pt-[max(1.5rem,env(safe-area-inset-top))]">
-      <h1 className="mb-5 text-[1.7rem] font-semibold leading-tight">{question}</h1>
-      <div className="flex flex-1 flex-col gap-2.5">
+    <div className="flex min-h-dvh flex-col px-6 pb-6 pt-[max(1.5rem,env(safe-area-inset-top))]">
+      <h1 className="mb-6 text-[1.7rem] font-semibold leading-tight">{question}</h1>
+      <div className="flex flex-1 flex-col gap-2">
         {labels.map((label, i) => {
           const value = i + 1;
           const color = fiveIsGood ? GOOD_TO_STRAINED[4 - i] : GOOD_TO_STRAINED[i];

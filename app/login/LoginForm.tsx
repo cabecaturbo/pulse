@@ -29,7 +29,7 @@ export default function LoginForm() {
 
   return (
     <form onSubmit={onSubmit} className="mt-8 flex flex-col gap-4">
-      <label className="flex flex-col gap-1.5">
+      <label className="flex flex-col gap-2">
         <span className="text-sm font-medium">Email</span>
         <input
           type="email"
@@ -40,7 +40,7 @@ export default function LoginForm() {
           className="rounded-sm border border-ink/20 bg-white px-4 py-3 text-base outline-none focus:border-press dark:border-slate-700 dark:bg-slate-900"
         />
       </label>
-      <label className="flex flex-col gap-1.5">
+      <label className="flex flex-col gap-2">
         <span className="text-sm font-medium">Password</span>
         <input
           type="password"
@@ -55,7 +55,7 @@ export default function LoginForm() {
       <button
         type="submit"
         disabled={busy}
-        className="mt-2 rounded-sm bg-press px-4 py-3.5 text-base font-semibold text-white hover:bg-press-deep disabled:opacity-50"
+        className="mt-2 rounded-sm bg-press px-4 py-4 text-base font-semibold text-white hover:bg-press-deep disabled:opacity-50"
       >
         {busy ? "Signing in…" : "Sign in"}
       </button>

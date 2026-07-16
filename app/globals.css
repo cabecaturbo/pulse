@@ -25,6 +25,20 @@
 }
 
 @theme {
+  /* Spacing scale — every margin, padding, gap and rhythm value in the app
+     lands on one of these steps. 4px is reserved for icon-to-label gaps and
+     tight pairs, never layout. Tailwind classes used in markup must map to
+     this scale (p-1/2/3/4/6/8/12/16/24 and friends). */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-24: 96px;
+
   /* Pulse scale: deep teal (good) -> warm amber (strained). Never red. */
   --color-pulse-1: #0f766e; /* deep teal — good */
   --color-pulse-2: #14b8a6;

@@ -87,7 +87,7 @@ export default async function UnitDetailPage({
   );
 
   return (
-    <main className="min-h-dvh bg-mist px-6 pb-16 pt-10 text-ink">
+    <main className="min-h-dvh bg-mist px-6 pb-16 pt-12 text-ink">
       <div className="mx-auto max-w-2xl">
         <Link href="/dashboard" className="text-sm text-press-deep hover:underline">
           ← All units
@@ -161,14 +161,14 @@ export default async function UnitDetailPage({
               responses.
             </p>
           ) : (
-            <ul className="mt-4 space-y-5">
+            <ul className="mt-4 space-y-6">
               {themes.map((t) => (
                 <li key={t.theme}>
                   <p className="text-[15px] font-semibold">
                     {t.theme} <span className="font-normal text-slate-500">× {t.count}</span>
                   </p>
                   {t.examples.length > 0 && (
-                    <ul className="mt-1.5 space-y-1 text-sm italic text-slate-600">
+                    <ul className="mt-2 space-y-1 text-sm italic text-slate-600">
                       {t.examples.map((e, i) => (
                         <li key={i}>&ldquo;{e}&rdquo;</li>
                       ))}

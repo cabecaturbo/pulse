@@ -64,14 +64,14 @@ export default function ActionsPanel({
         <button
           onClick={post}
           disabled={busy || !text.trim()}
-          className="rounded-sm bg-press px-5 py-3 text-[15px] font-semibold text-mist hover:bg-press-deep disabled:opacity-30"
+          className="rounded-sm bg-press px-6 py-3 text-[15px] font-semibold text-mist hover:bg-press-deep disabled:opacity-30"
         >
           Post
         </button>
       </div>
       {error && <p className="mt-2 text-sm text-pulse-5">{error}</p>}
 
-      <ol className="mt-6 space-y-5">
+      <ol className="mt-6 space-y-6">
         {ranked.map((a, i) => (
           <li key={a.id}>
             <div className="flex items-start justify-between gap-3">

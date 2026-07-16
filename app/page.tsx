@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default function Home() {
   return (
-    <main className="mx-auto flex min-h-dvh max-w-md flex-col justify-center gap-10 px-8">
+    <main className="mx-auto flex min-h-dvh max-w-md flex-col justify-center gap-12 px-8">
       <header>
         <div className="masthead-rule" />
         <p className="mt-3 text-xs uppercase tracking-[0.14em] text-slate-500 dark:text-slate-400">

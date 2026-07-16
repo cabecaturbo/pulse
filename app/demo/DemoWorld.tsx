@@ -54,11 +54,11 @@ export default function DemoWorld() {
 
   if (failed)
     return (
-      <p className="bg-mist p-10 text-center text-slate-500">Demo data unavailable.</p>
+      <p className="bg-mist p-12 text-center text-slate-500">Demo data unavailable.</p>
     );
   if (!data)
     return (
-      <p className="bg-mist p-10 text-center text-slate-500">Loading the demo world…</p>
+      <p className="bg-mist p-12 text-center text-slate-500">Loading the demo world…</p>
     );
 
   const units = data.units ?? [];
@@ -89,7 +89,7 @@ export default function DemoWorld() {
   );
 
   return (
-    <main className="min-h-dvh bg-mist px-6 pb-16 pt-10 text-ink">
+    <main className="min-h-dvh bg-mist px-6 pb-16 pt-12 text-ink">
       <div className="mx-auto max-w-2xl">
         <header>
           <div className="masthead-rule" />
@@ -128,7 +128,7 @@ export default function DemoWorld() {
           </p>
         </section>
 
-        <div className="mt-14 flex flex-col gap-12">
+        <div className="mt-16 flex flex-col gap-12">
           {cards.map(({ unit, forecast }) => (
             <article key={unit.unit_id}>
               <p className="flex items-baseline gap-3 text-xs font-semibold uppercase tracking-[0.14em]">

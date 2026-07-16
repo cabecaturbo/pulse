@@ -14,7 +14,7 @@ export default function TrustPage() {
 
       <section className="mt-8">
         <h2 className="text-lg font-semibold">What we collect</h2>
-        <ul className="mt-2 space-y-1.5 text-[17px] text-slate-600 dark:text-slate-300">
+        <ul className="mt-2 space-y-2 text-[17px] text-slate-600 dark:text-slate-300">
           <li>• Three numbers: workload, support, energy</li>
           <li>• Two yes/no answers: did you get a break, were you floated</li>
           <li>• A comment, only if you write one (120 letters max)</li>
@@ -27,7 +27,7 @@ export default function TrustPage() {
 
       <section className="mt-8">
         <h2 className="text-lg font-semibold">What we never collect</h2>
-        <ul className="mt-2 space-y-1.5 text-[17px] text-slate-600 dark:text-slate-300">
+        <ul className="mt-2 space-y-2 text-[17px] text-slate-600 dark:text-slate-300">
           <li>• Your name. There is no login for nurses.</li>
           <li>• Your phone or device ID. Nothing about your phone is sent.</li>
           <li>• Anything about patients. Ever.</li>
@@ -58,7 +58,7 @@ export default function TrustPage() {
         </p>
       </section>
 
-      <p className="mt-10 text-sm text-slate-400">
+      <p className="mt-12 text-sm text-slate-400">
         Questions? Ask your manager to show you their screen. That&apos;s
         allowed — it&apos;s all aggregates anyway.
       </p>

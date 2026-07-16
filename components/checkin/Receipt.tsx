@@ -67,7 +67,7 @@ export default function Receipt({
   const contextLine = unitContextLine(context);
 
   return (
-    <div className="mx-auto flex min-h-dvh max-w-md flex-col gap-5 px-5 pb-10 pt-[max(2rem,env(safe-area-inset-top))]">
+    <div className="mx-auto flex min-h-dvh max-w-md flex-col gap-6 px-6 pb-12 pt-[max(2rem,env(safe-area-inset-top))]">
       <div>
         <p className="text-sm font-medium uppercase tracking-widest text-teal-400">
           Shift receipt
@@ -81,7 +81,7 @@ export default function Receipt({
       </div>
 
       {/* (a) this shift */}
-      <section className="rounded-3xl border border-white/10 bg-white/5 p-5">
+      <section className="rounded-3xl border border-white/10 bg-white/5 p-6">
         <h2 className="text-sm font-semibold uppercase tracking-wider text-slate-400">
           This shift
         </h2>
@@ -113,7 +113,7 @@ export default function Receipt({
 
       {/* (b) private ledger — this device only */}
       {stats && stats.shiftsLogged > 0 && (
-        <section className="rounded-3xl border border-white/10 bg-white/5 p-5">
+        <section className="rounded-3xl border border-white/10 bg-white/5 p-6">
           <h2 className="text-sm font-semibold uppercase tracking-wider text-slate-400">
             Your ledger <span className="normal-case">· this phone only, never sent</span>
           </h2>
@@ -143,13 +143,13 @@ export default function Receipt({
 
       {/* you-said-we-did */}
       {latestAction && (
-        <section className="rounded-3xl border border-teal-500/20 bg-teal-950/40 p-5">
+        <section className="rounded-3xl border border-teal-500/20 bg-teal-950/40 p-6">
           <h2 className="text-sm font-semibold uppercase tracking-wider text-teal-300">
             Your manager acted on this
           </h2>
           <p className="mt-2 text-[17px]">{latestAction.action_text}</p>
           {voted === null ? (
-            <div className="mt-4 grid grid-cols-2 gap-2.5">
+            <div className="mt-4 grid grid-cols-2 gap-2">
               <button
                 onClick={() => vote(true)}
                 className="rounded-xl bg-teal-600 py-3 text-[15px] font-semibold text-white"

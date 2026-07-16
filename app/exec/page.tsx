@@ -65,7 +65,7 @@ export default async function ExecPage({
     .sort((a, b) => trendDelta(b)! - trendDelta(a)!)[0];
 
   return (
-    <main className="min-h-dvh bg-mist px-6 pb-16 pt-10 text-ink">
+    <main className="min-h-dvh bg-mist px-6 pb-16 pt-12 text-ink">
       <div className="mx-auto max-w-3xl">
         <header className="mb-12">
           <div className="masthead-rule" />
@@ -98,7 +98,7 @@ export default async function ExecPage({
           </p>
         </section>
 
-        <div className="mt-10 flex items-center gap-4 text-sm">
+        <div className="mt-12 flex items-center gap-4 text-sm">
           <span className="text-slate-500">Shift:</span>
           {[
             ["All", "/exec"],
@@ -123,7 +123,7 @@ export default async function ExecPage({
         <table className="mt-6 w-full text-left text-[15px]">
           <thead className="text-xs uppercase tracking-[0.1em] text-slate-500">
             <tr className="border-b border-ink/20">
-              <th className="py-3 pr-5 font-semibold">Unit</th>
+              <th className="py-3 pr-6 font-semibold">Unit</th>
               <th className="py-3 pr-4 font-semibold">Energy</th>
               <th className="py-3 pr-4 font-semibold">Trend</th>
               <th className="py-3 pr-4 font-semibold">Breaks</th>
@@ -135,7 +135,7 @@ export default async function ExecPage({
               const delta = trendDelta(row);
               return (
                 <tr key={row.unit_id} className="border-t border-ink/10">
-                  <td className="py-3.5 pr-5 font-semibold">
+                  <td className="py-4 pr-6 font-semibold">
                     {row.unit_name}
                     {best?.unit_id === row.unit_id && (
                       <span className="ml-2 text-xs font-normal italic text-press-deep">
@@ -149,8 +149,8 @@ export default async function ExecPage({
                         </span>
                       )}
                   </td>
-                  <td className="py-3.5 pr-4">{Number(row.recent_energy).toFixed(1)}/5</td>
-                  <td className="py-3.5 pr-4">
+                  <td className="py-4 pr-4">{Number(row.recent_energy).toFixed(1)}/5</td>
+                  <td className="py-4 pr-4">
                     {delta === null ? (
                       <span className="text-slate-500">new</span>
                     ) : (
@@ -159,8 +159,8 @@ export default async function ExecPage({
                       </span>
                     )}
                   </td>
-                  <td className="py-3.5 pr-4">{Math.round(Number(row.recent_break_rate) * 100)}%</td>
-                  <td className="py-3.5 text-right">
+                  <td className="py-4 pr-4">{Math.round(Number(row.recent_break_rate) * 100)}%</td>
+                  <td className="py-4 text-right">
                     {isStorming(row) && <span title="sustained storm">⛈</span>}
                   </td>
                 </tr>

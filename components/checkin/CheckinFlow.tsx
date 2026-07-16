@@ -95,7 +95,7 @@ export default function CheckinFlow({ code }: { code: string }) {
   return (
     <main className="min-h-dvh bg-ink text-mist">
       {unit && step !== "receipt" && step !== "constellation" && (
-        <p className="fixed left-0 right-0 top-[max(0.4rem,env(safe-area-inset-top))] z-10 text-center text-xs text-slate-500">
+        <p className="fixed left-0 right-0 top-[max(0.5rem,env(safe-area-inset-top))] z-10 text-center text-xs text-slate-500">
           {unit.unit_name} · {unit.hospital_name}
         </p>
       )}

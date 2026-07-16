@@ -50,9 +50,9 @@ export default function TrendLines({ weeks }: { weeks: WeeklyRow[] }) {
           />
         ))}
       </svg>
-      <div className="mt-1 flex gap-5 text-xs text-slate-500">
+      <div className="mt-1 flex gap-6 text-xs text-slate-500">
         {SERIES.map((s) => (
-          <span key={s.key} className="flex items-center gap-1.5">
+          <span key={s.key} className="flex items-center gap-2">
             <span className="inline-block h-2 w-2 rounded-full" style={{ background: s.color }} />
             {s.label}
           </span>

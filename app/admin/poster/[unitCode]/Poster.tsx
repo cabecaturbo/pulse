@@ -23,7 +23,7 @@ export default function Poster({ code }: { code: string }) {
 
   return (
     <main className="flex min-h-dvh items-center justify-center bg-slate-200 p-6 print:bg-white print:p-0">
-      <div className="w-full max-w-[210mm] bg-white p-14 text-slate-900 shadow-2xl print:shadow-none">
+      <div className="w-full max-w-[210mm] bg-white p-16 text-slate-900 shadow-2xl print:shadow-none">
         <p className="text-center text-sm font-semibold uppercase tracking-[0.3em] text-teal-700">
           Pulse · {unit ? unit.unit_name : code}
         </p>
@@ -33,15 +33,15 @@ export default function Poster({ code }: { code: string }) {
 
         {qr ? (
           // eslint-disable-next-line @next/next/no-img-element
-          <img src={qr} alt={`QR code for ${origin}/p/${code}`} className="mx-auto mt-10 w-72" />
+          <img src={qr} alt={`QR code for ${origin}/p/${code}`} className="mx-auto mt-12 w-72" />
         ) : (
-          <div className="mx-auto mt-10 h-72 w-72 animate-pulse bg-slate-100" />
+          <div className="mx-auto mt-12 h-72 w-72 animate-pulse bg-slate-100" />
         )}
         <p className="mt-3 text-center font-mono text-sm text-slate-500">
           {origin}/p/{code}
         </p>
 
-        <div className="mx-auto mt-10 max-w-md text-center">
+        <div className="mx-auto mt-12 max-w-md text-center">
           <p className="text-2xl font-semibold leading-snug">
             30 seconds. No login. No names.
           </p>
@@ -56,7 +56,7 @@ export default function Poster({ code }: { code: string }) {
 
         <button
           onClick={() => window.print()}
-          className="mx-auto mt-10 block rounded-xl bg-teal-700 px-6 py-3 font-semibold text-white print:hidden"
+          className="mx-auto mt-12 block rounded-xl bg-teal-700 px-6 py-3 font-semibold text-white print:hidden"
         >
           Print this poster
         </button>
