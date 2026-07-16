@@ -87,7 +87,7 @@ export default async function UnitDetailPage({
   );
 
   return (
-    <main className="min-h-dvh bg-mist px-6 pb-16 pt-12 text-ink">
+    <main className="min-h-dvh bg-mist px-8 pb-16 pt-12 text-ink">
       <div className="mx-auto max-w-2xl">
         <Link href="/dashboard" className="text-sm text-press-deep hover:underline">
           ← All units
@@ -101,7 +101,7 @@ export default async function UnitDetailPage({
               {severityLabel(forecast.severity)}
             </span>
           </p>
-          <h1 className="mt-2 text-3xl font-semibold leading-snug tracking-tight">
+          <h1 className="mt-2 text-3xl font-semibold leading-tight tracking-tight">
             {forecast.headline}
           </h1>
         </header>

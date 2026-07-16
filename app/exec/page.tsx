@@ -29,7 +29,7 @@ export default async function ExecPage({
 
   if (!exec) {
     return (
-      <main className="mx-auto max-w-2xl bg-mist px-6 py-16 text-ink">
+      <main className="mx-auto max-w-2xl bg-mist px-8 py-16 text-ink">
         <h1 className="text-2xl font-semibold">Executive view</h1>
         <p className="mt-3 text-slate-600">
           Your account isn&apos;t linked to a hospital as an executive. Ask your
@@ -65,7 +65,7 @@ export default async function ExecPage({
     .sort((a, b) => trendDelta(b)! - trendDelta(a)!)[0];
 
   return (
-    <main className="min-h-dvh bg-mist px-6 pb-16 pt-12 text-ink">
+    <main className="min-h-dvh bg-mist px-8 pb-16 pt-12 text-ink">
       <div className="mx-auto max-w-3xl">
         <header className="mb-12">
           <div className="masthead-rule" />

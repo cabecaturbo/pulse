@@ -44,7 +44,7 @@ export default async function DashboardPage() {
   );
 
   return (
-    <main className="min-h-dvh bg-mist px-6 pb-16 pt-12 text-ink">
+    <main className="min-h-dvh bg-mist px-8 pb-16 pt-12 text-ink">
       <div className="mx-auto max-w-2xl">
         <header className="mb-12">
           <div className="masthead-rule" />
@@ -82,7 +82,7 @@ export default async function DashboardPage() {
                   {severityLabel(forecast.severity)}
                 </span>
               </p>
-              <h2 className="mt-2 text-2xl font-semibold leading-snug tracking-tight group-hover:underline">
+              <h2 className="mt-2 text-2xl font-semibold leading-tight tracking-tight group-hover:underline">
                 {forecast.headline}
               </h2>
               {forecast.focus && (

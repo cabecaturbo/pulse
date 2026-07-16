@@ -85,7 +85,7 @@ export default function Receipt({
         <h2 className="text-sm font-semibold uppercase tracking-wider text-slate-400">
           This shift
         </h2>
-        <dl className="mt-3 space-y-2 text-[17px]">
+        <dl className="mt-4 space-y-3 text-[17px]">
           <div className="flex justify-between">
             <dt className="text-slate-400">Workload</dt>
             <dd className="font-semibold">{WORDS.workload[answers.workload]}</dd>

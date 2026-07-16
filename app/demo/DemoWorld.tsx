@@ -89,7 +89,7 @@ export default function DemoWorld() {
   );
 
   return (
-    <main className="min-h-dvh bg-mist px-6 pb-16 pt-12 text-ink">
+    <main className="min-h-dvh bg-mist px-8 pb-16 pt-12 text-ink">
       <div className="mx-auto max-w-2xl">
         <header>
           <div className="masthead-rule" />
@@ -111,7 +111,7 @@ export default function DemoWorld() {
         </header>
 
         <section
-          className="mt-12"
+          className="mt-16"
           title={`${stormUnits.length} storm unit(s) × ${data.hospital?.nurses_per_unit ?? 32} nurses × ${Math.round(AT_RISK_SHARE * 100)}% assumed at risk × ${fmtMoney(Number(data.hospital?.replacement_cost ?? 55000))} replacement cost. The ${Math.round(AT_RISK_SHARE * 100)}% is an assumption, calibrated after pilots.`}
         >
           <p className="text-xs font-semibold uppercase tracking-[0.14em] text-slate-500">
@@ -137,7 +137,7 @@ export default function DemoWorld() {
                   {severityLabel(forecast.severity)}
                 </span>
               </p>
-              <h2 className="mt-2 text-2xl font-semibold leading-snug tracking-tight">
+              <h2 className="mt-2 text-2xl font-semibold leading-tight tracking-tight">
                 {forecast.headline}
               </h2>
 

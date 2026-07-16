@@ -24,7 +24,7 @@ export default async function AdminPage() {
     .order("name");
 
   return (
-    <main className="min-h-dvh bg-mist px-6 pb-16 pt-12 text-ink">
+    <main className="min-h-dvh bg-mist px-8 pb-16 pt-12 text-ink">
       <div className="mx-auto max-w-2xl">
         <header className="mb-12">
           <div className="masthead-rule" />
@@ -49,7 +49,7 @@ export default async function AdminPage() {
         {(hospitals ?? []).map((h) => (
           <section key={h.id} className="mb-12">
             <h2 className="text-2xl font-semibold tracking-tight">{h.name}</h2>
-            <ul className="mt-4 space-y-4">
+            <ul className="mt-6 space-y-6">
               {(h.units as { id: string; name: string; join_code: string }[]).map(
                 (u) => (
                   <li key={u.id} className="flex items-baseline justify-between gap-4">
