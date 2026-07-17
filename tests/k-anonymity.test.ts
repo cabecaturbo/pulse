@@ -149,13 +149,19 @@ d("the 5-response floor holds under attack", () => {
   });
 
   it("cohort slicing cannot isolate a small new-grad group", async () => {
-    // 1 new-grad of 5 total: cohort side is under the floor.
+    // The invariant: any returned row must have BOTH groups at or above the
+    // floor. (Runs accumulate on this unit, so the cohort may legitimately
+    // clear 5 across all seeded weeks — what may never happen is a sub-floor
+    // group being reported.)
     const { data, error } = await manager.rpc("api_unit_cohort", {
       p_unit: unitId,
       p_weeks: WEEKS_BACK,
     });
     expect(error).toBeNull();
-    expect((data ?? []) as unknown[]).toHaveLength(0);
+    for (const row of (data ?? []) as { cohort_n: number; unit_n: number }[]) {
+      expect(row.cohort_n).toBeGreaterThanOrEqual(5);
+      expect(row.unit_n).toBeGreaterThanOrEqual(5);
+    }
   });
 
   it("date-window differencing yields nothing: cutoffs snap to whole weeks", async () => {
