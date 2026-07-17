@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import SwatchQuestion from "./SwatchQuestion";
 import Toggles from "./Toggles";
 import CommentStep from "./CommentStep";
-import Constellation from "./Constellation";
+import Tally from "./Tally";
 import Receipt from "./Receipt";
 import {
   fetchLatestAction,
@@ -27,10 +27,30 @@ type Step =
   | "energy"
   | "toggles"
   | "comment"
-  | "constellation"
+  | "tally"
   | "receipt"
   | "cooldown"
   | "bad-code";
+
+const FOLIO_SUFFIX: Record<Step, string> = {
+  workload: " · i / v",
+  support: " · ii / v",
+  energy: " · iii / v",
+  toggles: " · iv / v",
+  comment: " · v / v",
+  tally: " · counted",
+  receipt: " · shift receipt",
+  cooldown: "",
+  "bad-code": "",
+};
+
+/** "4-West" -> "no. 04 — west"; names without a number just lowercase. */
+function folioBase(unit: UnitInfo | null): string {
+  if (!unit) return "pulse";
+  const m = unit.unit_name.match(/^(\d+)[-\s]*(.*)$/);
+  if (m && m[2]) return `no. ${m[1].padStart(2, "0")} — ${m[2].toLowerCase()}`;
+  return unit.unit_name.toLowerCase();
+}
 
 function guessShift(unit: UnitInfo | null): ShiftType {
   const hour = new Date().getHours();
@@ -56,15 +76,13 @@ export default function CheckinFlow({ code }: { code: string }) {
     fetchUnit(code).then((u) => {
       if (u) setUnit(u);
       else if (navigator.onLine) setUnitMissing(true);
-      // Offline + unknown unit: keep going; the submit will queue and the
-      // code is validated when it lands.
     });
     fetchUnitContext(code).then(setContext);
     fetchLatestAction(code).then(setLatestAction);
   }, [code]);
 
   useEffect(() => {
-    if (unitMissing && step !== "receipt" && step !== "constellation") {
+    if (unitMissing && step !== "receipt" && step !== "tally") {
       setStep("bad-code");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -83,110 +101,153 @@ export default function CheckinFlow({ code }: { code: string }) {
       comment,
     };
     answersRef.current = answers;
-    setStep("constellation");
+    setStep("tally");
     recordPersonal(answers);
-    // Fire-and-forget: sends now or queues for the service worker.
     submitCheckin(unit?.unit_id ?? "", answers).then((r) => setQueued(r === "queued"));
   }
 
-  const thisWeekCount =
-    context.length > 0 ? context[context.length - 1].n : 0;
+  const weekVoices = context.length > 0 ? context[context.length - 1].n : 0;
+  const shiftWord = answersRef.current.shift_type ?? guessShift(unit);
+  const folio =
+    step === "bad-code" ? "pulse" : folioBase(unit) + FOLIO_SUFFIX[step];
+
+  const basePad = "flex min-h-dvh flex-col pr-6 pl-12";
 
   return (
-    <main className="min-h-dvh bg-ink text-mist">
-      {unit && step !== "receipt" && step !== "constellation" && (
-        <p className="fixed left-0 right-0 top-[max(0.5rem,env(safe-area-inset-top))] z-10 text-center text-xs text-slate-500">
-          {unit.unit_name} · {unit.hospital_name}
-        </p>
-      )}
+    <main className="editorial relative min-h-dvh">
+      {/* running label along the left edge */}
+      <div
+        className="pointer-events-none fixed left-2.5 top-[108px] z-[5]"
+        style={{
+          writingMode: "vertical-rl",
+          transform: "rotate(180deg)",
+          fontSize: "11px",
+          letterSpacing: "0.25em",
+          textTransform: "lowercase",
+          color: "rgba(26,24,21,0.42)",
+        }}
+      >
+        pulse — {shiftWord} shift
+      </div>
 
-      {step === "workload" && (
-        <SwatchQuestion
-          question="How heavy was the workload this shift?"
-          labels={["Light", "Steady", "Busy", "Heavy", "Crushing"]}
-          fiveIsGood={false}
-          onPick={(v) => {
-            answersRef.current.workload = v;
-            setStep("support");
-          }}
-        />
-      )}
-
-      {step === "support" && (
-        <SwatchQuestion
-          question="How supported did you feel?"
-          labels={["On my own", "Thin", "Okay", "Solid", "Fully backed"]}
-          fiveIsGood={true}
-          onPick={(v) => {
-            answersRef.current.support = v;
-            setStep("energy");
-          }}
-        />
-      )}
-
-      {step === "energy" && (
-        <SwatchQuestion
-          question="How's your tank walking out?"
-          labels={["Running empty", "Low", "Okay", "Good", "Full tank"]}
-          fiveIsGood={true}
-          onPick={(v) => {
-            answersRef.current.energy = v;
-            setStep("toggles");
-          }}
-        />
-      )}
-
-      {step === "toggles" && (
-        <Toggles
-          shiftType={guessShift(unit)}
-          onDone={(v) => {
-            Object.assign(answersRef.current, v);
-            setStep("comment");
-          }}
-        />
-      )}
-
-      {step === "comment" && <CommentStep onDone={finishComment} />}
-
-      {step === "constellation" && (
-        <Constellation weekCount={thisWeekCount} onDone={() => setStep("receipt")} />
-      )}
-
-      {step === "receipt" && (
-        <Receipt
-          answers={answersRef.current as CheckinAnswers}
-          queued={queued}
-          context={context}
-          latestAction={latestAction}
-          hasRep={unit?.has_rep ?? false}
-        />
-      )}
-
-      {step === "cooldown" && (
-        <div className="flex min-h-dvh flex-col items-center justify-center gap-3 px-8 text-center">
-          <div className="text-4xl">💤</div>
-          <h1 className="text-2xl font-semibold">Already counted</h1>
-          <p className="text-[15px] text-slate-400">
-            You checked in within the last 8 hours. Come back after your next
-            shift — every one counts.
-          </p>
-          <a href="/trust" className="mt-4 text-sm text-slate-500 underline">
-            Our promise to you
-          </a>
+      <div
+        key={step}
+        className={`ed-screen ${basePad} ${
+          step === "receipt" || step === "cooldown" || step === "bad-code"
+            ? "pb-12"
+            : "pb-10"
+        }`}
+        style={{
+          paddingTop: `max(${step === "receipt" ? 28 : 24}px, env(safe-area-inset-top))`,
+        }}
+      >
+        {/* folio line */}
+        <div
+          className="ed-micro border-t pt-2"
+          style={{ borderColor: "#1A1815", color: "rgba(26,24,21,0.65)" }}
+        >
+          {folio}
         </div>
-      )}
 
-      {step === "bad-code" && (
-        <div className="flex min-h-dvh flex-col items-center justify-center gap-3 px-8 text-center">
-          <div className="text-4xl">🔍</div>
-          <h1 className="text-2xl font-semibold">Unit not found</h1>
-          <p className="text-[15px] text-slate-400">
-            The code <span className="font-mono text-mist">{code}</span> doesn&apos;t
-            match a unit. Re-scan the QR poster on your unit, or ask your
-            manager for the right link.
-          </p>
-        </div>
-      )}
+        {step === "workload" && (
+          <SwatchQuestion
+            question="How heavy was the workload this shift?"
+            labels={["Light", "Steady", "Busy", "Heavy", "Crushing"]}
+            fiveIsGood={false}
+            onPick={(v) => {
+              answersRef.current.workload = v;
+              setStep("support");
+            }}
+          />
+        )}
+
+        {step === "support" && (
+          <SwatchQuestion
+            question="How supported did you feel?"
+            labels={["On my own", "Thin", "Okay", "Solid", "Fully backed"]}
+            fiveIsGood={true}
+            onPick={(v) => {
+              answersRef.current.support = v;
+              setStep("energy");
+            }}
+          />
+        )}
+
+        {step === "energy" && (
+          <SwatchQuestion
+            question="How's your tank walking out?"
+            labels={["Running empty", "Low", "Okay", "Good", "Full tank"]}
+            fiveIsGood={true}
+            onPick={(v) => {
+              answersRef.current.energy = v;
+              setStep("toggles");
+            }}
+          />
+        )}
+
+        {step === "toggles" && (
+          <Toggles
+            shiftType={guessShift(unit)}
+            onDone={(v) => {
+              Object.assign(answersRef.current, v);
+              setStep("comment");
+            }}
+          />
+        )}
+
+        {step === "comment" && <CommentStep onDone={finishComment} />}
+
+        {step === "tally" && (
+          <Tally weekVoices={weekVoices} onDone={() => setStep("receipt")} />
+        )}
+
+        {step === "receipt" && (
+          <Receipt
+            answers={answersRef.current as CheckinAnswers}
+            queued={queued}
+            context={context}
+            latestAction={latestAction}
+            hasRep={unit?.has_rep ?? false}
+          />
+        )}
+
+        {step === "cooldown" && (
+          <>
+            <h1 className="ed-serif mt-24 text-[40px] font-medium leading-[1.1]">
+              Already counted.
+            </h1>
+            <p
+              className="ed-serif mt-5 max-w-[290px] text-xl leading-[1.4]"
+              style={{ color: "rgba(26,24,21,0.8)", textWrap: "pretty" }}
+            >
+              You checked in within the last eight hours. Come back after your
+              next shift — every one counts.
+            </p>
+            <a
+              href="/trust"
+              className="ed-micro mt-10 self-start"
+              style={{ color: "rgba(26,24,21,0.55)" }}
+            >
+              our promise to you
+            </a>
+          </>
+        )}
+
+        {step === "bad-code" && (
+          <>
+            <h1 className="ed-serif mt-24 text-[40px] font-medium leading-[1.1]">
+              That code doesn&rsquo;t land.
+            </h1>
+            <p
+              className="ed-serif mt-5 max-w-[300px] text-xl leading-[1.4]"
+              style={{ color: "rgba(26,24,21,0.8)", textWrap: "pretty" }}
+            >
+              The code <em>{code}</em> doesn&rsquo;t match a unit. Re-scan the
+              poster on your unit, or ask your manager for the right link.
+            </p>
+          </>
+        )}
+      </div>
     </main>
   );
 }

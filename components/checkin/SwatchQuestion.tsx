@@ -1,9 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 
-// Pulse scale, good -> strained. Never red.
-const GOOD_TO_STRAINED = ["#0f766e", "#14b8a6", "#64748b", "#d97706", "#b45309"];
+// Downtown editorial scale, good -> strained: moss, dry grass, wheat,
+// terracotta, rust. Never red.
+const SCALE = ["#7E946F", "#AEB98F", "#D8C79A", "#C98E5F", "#B05F38"];
 
 export interface SwatchQuestionProps {
   question: string;
@@ -13,6 +14,10 @@ export interface SwatchQuestionProps {
   onPick: (value: number) => void;
 }
 
+/**
+ * One question, five stones: 48px circles with Fraunces labels. On pick:
+ * letterpress press + ink bloom + settle, then auto-advance after 760ms.
+ */
 export default function SwatchQuestion({
   question,
   labels,
@@ -20,40 +25,57 @@ export default function SwatchQuestion({
   onPick,
 }: SwatchQuestionProps) {
   const [picked, setPicked] = useState<number | null>(null);
+  const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   function pick(value: number) {
     if (picked !== null) return;
     setPicked(value);
     navigator.vibrate?.(12);
-    // Let the spring play before advancing.
-    setTimeout(() => onPick(value), 220);
+    timer.current = setTimeout(() => onPick(value), 760);
   }
 
   return (
-    <div className="flex min-h-dvh flex-col px-6 pb-6 pt-[max(1.5rem,env(safe-area-inset-top))]">
-      <h1 className="mb-6 text-[1.7rem] font-semibold leading-tight">{question}</h1>
-      <div className="flex flex-1 flex-col gap-2">
+    <>
+      <h1
+        className="ed-serif mt-10 max-w-[300px] text-[34px] font-medium leading-[1.15]"
+        style={{ textWrap: "pretty" }}
+      >
+        {question}
+      </h1>
+      <div className="mt-11 flex flex-col gap-2.5">
         {labels.map((label, i) => {
           const value = i + 1;
-          const color = fiveIsGood ? GOOD_TO_STRAINED[4 - i] : GOOD_TO_STRAINED[i];
+          const color = fiveIsGood ? SCALE[4 - i] : SCALE[i];
+          const bloom = picked === value;
           return (
             <button
               key={value}
               onClick={() => pick(value)}
-              className={`letterpress flex flex-1 items-center justify-between rounded-2xl px-6 text-left text-[17px] font-semibold text-white ${
-                picked === value ? "tap-spring" : ""
-              }`}
-              style={{
-                background: `linear-gradient(135deg, ${color}, ${color}cc)`,
-                minHeight: "3.5rem",
-              }}
+              className="ed-press flex min-h-14 cursor-pointer items-center gap-[22px] border-none bg-transparent p-0 py-1.5 text-left text-[#1A1815]"
             >
-              <span>{label}</span>
-              <span className="text-white/60">{value}</span>
+              <span className="relative inline-flex flex-none">
+                <span
+                  className="inline-block h-12 w-12 rounded-full"
+                  style={{
+                    background: color,
+                    animation: bloom ? "ed-settle 2500ms ease-out" : "none",
+                  }}
+                />
+                {bloom && (
+                  <span
+                    className="pointer-events-none absolute -inset-[3px] rounded-full"
+                    style={{
+                      border: `1.5px solid ${color}`,
+                      animation: "ed-bloom 1100ms ease-out forwards",
+                    }}
+                  />
+                )}
+              </span>
+              <span className="ed-serif text-2xl font-normal">{label}</span>
             </button>
           );
         })}
       </div>
-    </div>
+    </>
   );
 }

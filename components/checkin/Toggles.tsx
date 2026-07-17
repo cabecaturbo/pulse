@@ -13,37 +13,29 @@ interface TogglesProps {
   }) => void;
 }
 
-function BigToggle({
+function YesNo({
+  selected,
   label,
-  value,
-  onChange,
+  onPick,
 }: {
+  selected: boolean;
   label: string;
-  value: boolean | null;
-  onChange: (v: boolean) => void;
+  onPick: () => void;
 }) {
   return (
-    <div>
-      <p className="mb-2 text-[17px] font-semibold">{label}</p>
-      <div className="grid grid-cols-2 gap-2">
-        {[true, false].map((v) => (
-          <button
-            key={String(v)}
-            onClick={() => {
-              navigator.vibrate?.(10);
-              onChange(v);
-            }}
-            className={`letterpress rounded-2xl py-4 text-[17px] font-semibold transition-colors ${
-              value === v
-                ? "bg-mist text-ink"
-                : "bg-white/10 text-mist"
-            }`}
-          >
-            {v ? "Yes" : "No"}
-          </button>
-        ))}
-      </div>
-    </div>
+    <button
+      onClick={onPick}
+      className="ed-serif ed-press min-w-11 cursor-pointer border-none bg-transparent p-0 py-2.5 text-left text-[22px]"
+      style={{
+        color: selected ? "#1A1815" : "rgba(26,24,21,0.4)",
+        textDecoration: selected ? "underline" : "none",
+        textUnderlineOffset: "5px",
+        textDecorationThickness: "1px",
+        animation: selected ? "ed-settle 2500ms ease-out" : "none",
+      }}
+    >
+      {label}
+    </button>
   );
 }
 
@@ -55,36 +47,76 @@ export default function Toggles({ shiftType, onDone }: TogglesProps) {
 
   const ready = gotBreak !== null && floated !== null;
 
+  const rows: { label: string; value: boolean | null; set: (v: boolean) => void }[] = [
+    { label: "Did you get your break?", value: gotBreak, set: setGotBreak },
+    { label: "Were you floated to another unit?", value: floated, set: setFloated },
+  ];
+
   return (
-    <div className="flex min-h-dvh flex-col gap-8 px-6 pb-8 pt-[max(1.5rem,env(safe-area-inset-top))]">
+    <>
       <button
         onClick={() => setShift(shift === "day" ? "night" : "day")}
-        className="letterpress self-start rounded-full bg-white/10 px-4 py-2 text-sm font-medium"
+        className="ed-micro ed-press-flat mt-6 cursor-pointer self-start border-none bg-transparent p-0 pt-3 text-left underline transition-transform duration-[120ms] ease-out"
+        style={{ color: "rgba(26,24,21,0.65)", textUnderlineOffset: "4px" }}
       >
-        {shift === "day" ? "☀️ Day shift" : "🌙 Night shift"} · tap to switch
+        {shift === "night"
+          ? "night shift — tap if it was day"
+          : "day shift — tap if it was night"}
       </button>
 
-      <BigToggle label="Did you get your break?" value={gotBreak} onChange={setGotBreak} />
-      <BigToggle
-        label="Were you floated to another unit?"
-        value={floated}
-        onChange={setFloated}
-      />
+      <div className="mt-7 flex flex-col">
+        {rows.map((row) => (
+          <div
+            key={row.label}
+            className="border-b py-[26px]"
+            style={{ borderColor: "#DDD6C6" }}
+          >
+            <p
+              className="ed-serif m-0 max-w-[300px] text-[26px] font-normal leading-[1.2]"
+              style={{ textWrap: "pretty" }}
+            >
+              {row.label}
+            </p>
+            <div className="mt-[18px] flex gap-9">
+              <YesNo
+                selected={row.value === true}
+                label="Yes"
+                onPick={() => {
+                  navigator.vibrate?.(10);
+                  row.set(true);
+                }}
+              />
+              <YesNo
+                selected={row.value === false}
+                label="No"
+                onPick={() => {
+                  navigator.vibrate?.(10);
+                  row.set(false);
+                }}
+              />
+            </div>
+          </div>
+        ))}
+      </div>
 
-      <label className="flex items-center gap-3 text-[15px] text-slate-300">
-        <input
-          type="checkbox"
-          checked={newGrad}
-          onChange={(e) => setNewGrad(e.target.checked)}
-          className="h-5 w-5 accent-mist"
+      <button
+        onClick={() => setNewGrad(!newGrad)}
+        className="ed-serif ed-press-flat flex cursor-pointer items-center gap-3.5 border-none bg-transparent p-0 py-[22px] text-left text-lg text-[#1A1815] transition-transform duration-[120ms] ease-out"
+      >
+        <span
+          className="h-[13px] w-[13px] flex-none rounded-full"
+          style={{
+            border: "1.5px solid #1A1815",
+            background: newGrad ? "#1A1815" : "transparent",
+          }}
         />
-        I&apos;m in my first year as a nurse
-      </label>
+        <span>I&rsquo;m in my first year as a nurse</span>
+      </button>
 
-      <div className="mt-auto">
+      <div className="mt-auto pt-8">
         <button
-          disabled={!ready}
           onClick={() =>
+            ready &&
             onDone({
               got_break: gotBreak!,
               was_floated: floated!,
@@ -92,11 +124,17 @@ export default function Toggles({ shiftType, onDone }: TogglesProps) {
               shift_type: shift,
             })
           }
-          className="letterpress w-full rounded-2xl bg-mist py-4 text-[17px] font-semibold text-ink disabled:opacity-30"
+          className="ed-serif ed-press-flat cursor-pointer border-none bg-transparent p-0 py-3 text-left text-xl text-[#1A1815] underline transition-transform duration-[120ms] ease-out"
+          style={{
+            textUnderlineOffset: "5px",
+            textDecorationThickness: "1px",
+            opacity: ready ? 1 : 0.3,
+            pointerEvents: ready ? "auto" : "none",
+          }}
         >
-          Continue
+          go on
         </button>
       </div>
-    </div>
+    </>
   );
 }

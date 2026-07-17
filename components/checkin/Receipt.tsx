@@ -16,7 +16,10 @@ const WORDS: Record<string, string[]> = {
   energy: ["", "Running empty", "Low", "Okay", "Good", "Full tank"],
 };
 
-/** "your unit's energy is up 2 weeks straight" — only from 5+ response weeks. */
+const SMALL_NUMW = ["zero", "one", "two", "three", "four", "five", "six"];
+const spell = (n: number) => SMALL_NUMW[n] ?? String(n);
+
+/** "Your unit's energy has dipped two weeks running — you're not imagining it." */
 export function unitContextLine(weeks: UnitWeekContext[]): string | null {
   if (weeks.length < 2) return null;
   let up = 0;
@@ -30,9 +33,18 @@ export function unitContextLine(weeks: UnitWeekContext[]): string | null {
       down++;
     } else break;
   }
-  if (up >= 2) return `Your unit's energy is up ${up} weeks straight.`;
-  if (down >= 2) return `Your unit's energy has dipped ${down} weeks running — you're not imagining it.`;
+  if (up >= 2) return `Your unit's energy is up ${spell(up)} weeks straight.`;
+  if (down >= 2)
+    return `Your unit's energy has dipped ${spell(down)} weeks running — you're not imagining it.`;
   return null;
+}
+
+function MicroLabel({ children }: { children: React.ReactNode }) {
+  return (
+    <p className="ed-micro m-0" style={{ color: "rgba(26,24,21,0.55)" }}>
+      {children}
+    </p>
+  );
 }
 
 export default function Receipt({
@@ -66,118 +78,167 @@ export default function Receipt({
 
   const contextLine = unitContextLine(context);
 
+  const rows: { k: string; v: string }[] = [
+    { k: "workload", v: WORDS.workload[answers.workload] },
+    { k: "support", v: WORDS.support[answers.support] },
+    { k: "energy", v: WORDS.energy[answers.energy] },
+    { k: "break", v: answers.got_break ? "Yes" : "No" },
+  ];
+  if (answers.was_floated) rows.push({ k: "floated", v: "Yes" });
+
   return (
-    <div className="mx-auto flex min-h-dvh max-w-md flex-col gap-8 px-6 pb-12 pt-[max(2rem,env(safe-area-inset-top))]">
-      <div>
-        <p className="text-sm font-medium uppercase tracking-widest text-slate-400">
-          Shift receipt
+    <>
+      <h1
+        className="ed-serif mt-9 text-[40px] font-medium leading-[1.1]"
+        style={{ textWrap: "pretty" }}
+      >
+        Thank you.
+        <br />
+        It counted.
+      </h1>
+
+      {queued && (
+        <p
+          className="ed-serif mt-4 max-w-[290px] text-[17px] italic"
+          style={{ color: "rgba(26,24,21,0.7)" }}
+        >
+          Saved on this phone — it will send itself when you&rsquo;re back in
+          signal.
         </p>
-        <h1 className="mt-1 text-3xl font-bold">Thanks. That counted.</h1>
-        {queued && (
-          <p className="mt-2 rounded-xl bg-white/10 px-4 py-3 text-[15px] text-slate-300">
-            Saved — will send when you&apos;re back in signal.
-          </p>
-        )}
+      )}
+
+      {/* this shift */}
+      <div className="mt-11 border-t pt-3.5" style={{ borderColor: "#DDD6C6" }}>
+        <MicroLabel>this shift</MicroLabel>
+        <div className="mt-4 flex flex-col gap-2.5">
+          {rows.map((r) => (
+            <div
+              key={r.k}
+              className="grid items-baseline gap-4"
+              style={{ gridTemplateColumns: "92px 1fr" }}
+            >
+              <span className="ed-micro" style={{ color: "rgba(26,24,21,0.55)" }}>
+                {r.k}
+              </span>
+              <span className="ed-serif text-[22px]">{r.v}</span>
+            </div>
+          ))}
+        </div>
       </div>
 
-      {/* (a) this shift */}
-      <section className="rounded-3xl border border-white/10 bg-white/5 p-6">
-        <h2 className="text-sm font-semibold uppercase tracking-wider text-slate-400">
-          This shift
-        </h2>
-        <dl className="mt-4 space-y-3 text-[17px]">
-          <div className="flex justify-between">
-            <dt className="text-slate-400">Workload</dt>
-            <dd className="font-semibold">{WORDS.workload[answers.workload]}</dd>
-          </div>
-          <div className="flex justify-between">
-            <dt className="text-slate-400">Support</dt>
-            <dd className="font-semibold">{WORDS.support[answers.support]}</dd>
-          </div>
-          <div className="flex justify-between">
-            <dt className="text-slate-400">Energy</dt>
-            <dd className="font-semibold">{WORDS.energy[answers.energy]}</dd>
-          </div>
-          <div className="flex justify-between">
-            <dt className="text-slate-400">Break</dt>
-            <dd className="font-semibold">{answers.got_break ? "Yes" : "No"}</dd>
-          </div>
-          {answers.was_floated && (
-            <div className="flex justify-between">
-              <dt className="text-slate-400">Floated</dt>
-              <dd className="font-semibold">Yes</dd>
-            </div>
-          )}
-        </dl>
-      </section>
-
-      {/* (b) private ledger — this device only */}
+      {/* your ledger — device only */}
       {stats && stats.shiftsLogged > 0 && (
-        <section className="rounded-3xl border border-white/10 bg-white/5 p-6">
-          <h2 className="text-sm font-semibold uppercase tracking-wider text-slate-400">
-            Your ledger <span className="normal-case">· this phone only, never sent</span>
-          </h2>
-          <div className="mt-3 grid grid-cols-3 gap-3 text-center">
+        <div className="mt-9 border-t pt-3.5" style={{ borderColor: "#DDD6C6" }}>
+          <MicroLabel>your ledger — this phone only, never sent</MicroLabel>
+          <div className="mt-3 flex flex-wrap items-baseline gap-9">
             <div>
-              <p className="text-2xl font-bold">{stats.shiftsLogged}</p>
-              <p className="mt-1 text-xs text-slate-400">shifts logged</p>
-            </div>
-            <div>
-              <p className="text-2xl font-bold">
-                {stats.breakRatePct === null ? "—" : `${stats.breakRatePct}%`}
+              <p className="ed-serif m-0 text-[64px] font-medium leading-none">
+                {stats.shiftsLogged}
               </p>
-              <p className="mt-1 text-xs text-slate-400">break rate</p>
+              <p
+                className="ed-micro m-0 mt-0.5 max-w-[110px]"
+                style={{ color: "rgba(26,24,21,0.55)" }}
+              >
+                shifts logged
+              </p>
             </div>
-            <div>
-              <p className="text-2xl font-bold">{stats.hardestStretch ?? "—"}</p>
-              <p className="mt-1 text-xs text-slate-400">hardest stretch this month</p>
-            </div>
+            {stats.breakRatePct !== null && (
+              <div>
+                <p className="ed-serif m-0 text-[64px] font-medium leading-none">
+                  {stats.breakRatePct}%
+                </p>
+                <p
+                  className="ed-micro m-0 mt-0.5 max-w-[110px]"
+                  style={{ color: "rgba(26,24,21,0.55)" }}
+                >
+                  break rate
+                </p>
+              </div>
+            )}
+            {stats.hardestStretch && (
+              <div>
+                <p className="ed-serif m-0 pt-2 text-[30px] font-medium leading-none">
+                  {stats.hardestStretch}
+                </p>
+                <p
+                  className="ed-micro m-0 mt-0.5 max-w-[110px]"
+                  style={{ color: "rgba(26,24,21,0.55)" }}
+                >
+                  hardest stretch this month
+                </p>
+              </div>
+            )}
           </div>
-        </section>
+        </div>
       )}
 
-      {/* (c) unit context — only when the 5-response floor is met */}
+      {/* unit context — only when the 5-voice floor is met */}
       {contextLine && (
-        <p className="px-1 text-[15px] text-slate-300">✨ {contextLine}</p>
+        <p
+          className="ed-serif m-0 mt-9 max-w-[300px] text-xl italic leading-[1.35]"
+          style={{ textWrap: "pretty" }}
+        >
+          {contextLine}
+        </p>
       )}
 
-      {/* you-said-we-did */}
+      {/* your manager acted on this */}
       {latestAction && (
-        <section className="rounded-3xl border border-white/10 bg-white/5 p-6">
-          <h2 className="text-sm font-semibold uppercase tracking-wider text-slate-400">
-            Your manager acted on this
-          </h2>
-          <p className="mt-2 text-[17px]">{latestAction.action_text}</p>
+        <div className="mt-9 border-t pt-3.5" style={{ borderColor: "#DDD6C6" }}>
+          <MicroLabel>your manager acted on this</MicroLabel>
+          <p
+            className="ed-serif m-0 mt-3.5 max-w-[300px] text-[22px] leading-[1.3]"
+            style={{ textWrap: "pretty" }}
+          >
+            {latestAction.action_text}
+          </p>
           {voted === null ? (
-            <div className="mt-4 grid grid-cols-2 gap-2">
+            <div className="mt-[18px] flex gap-8">
               <button
                 onClick={() => vote(true)}
-                className="letterpress rounded-xl bg-mist py-3 text-[15px] font-semibold text-ink"
+                className="ed-serif ed-press-text cursor-pointer border-none bg-transparent p-0 py-2 text-[17px] text-[#1A1815] underline transition-transform duration-[120ms] ease-out"
+                style={{ textUnderlineOffset: "4px" }}
               >
-                Helped
+                it helped
               </button>
               <button
                 onClick={() => vote(false)}
-                className="letterpress rounded-xl bg-white/10 py-3 text-[15px] font-semibold"
+                className="ed-serif ed-press-text cursor-pointer border-none bg-transparent p-0 py-2 text-[17px] underline transition-transform duration-[120ms] ease-out"
+                style={{ color: "rgba(26,24,21,0.6)", textUnderlineOffset: "4px" }}
               >
-                Didn&apos;t help yet
+                not yet
               </button>
             </div>
           ) : (
-            <p className="mt-3 text-sm text-slate-300">Noted — anonymously, like everything here.</p>
+            <p
+              className="ed-serif m-0 mt-[18px] text-[17px] italic"
+              style={{
+                color: "rgba(26,24,21,0.7)",
+                animation: "ed-reveal 900ms ease-out",
+              }}
+            >
+              Noted — anonymously, like everything here.
+            </p>
           )}
-        </section>
+        </div>
       )}
 
       {hasRep && (
-        <p className="rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-center text-sm text-slate-300">
-          🤝 Your unit rep sees the same dashboard your manager does.
+        <p
+          className="ed-serif m-0 mt-8 max-w-[290px] text-base italic"
+          style={{ color: "rgba(26,24,21,0.7)" }}
+        >
+          Your unit rep sees the same dashboard your manager does.
         </p>
       )}
 
-      <a href="/trust" className="mt-auto text-center text-sm text-slate-500 underline">
-        What we collect and what we never do
+      <a
+        href="/trust"
+        className="ed-micro mt-12 self-start"
+        style={{ color: "rgba(26,24,21,0.55)" }}
+      >
+        what we collect — and what we never do
       </a>
-    </div>
+    </>
   );
 }

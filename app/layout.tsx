@@ -1,6 +1,21 @@
 import type { Metadata, Viewport } from "next";
+import { Fraunces, Inter } from "next/font/google";
 import SwRegister from "@/components/SwRegister";
 import "./globals.css";
+
+// Downtown editorial: Fraunces for anything human, Inter for micro-labels.
+const fraunces = Fraunces({
+  subsets: ["latin"],
+  style: ["normal", "italic"],
+  axes: ["opsz"],
+  variable: "--font-fraunces",
+});
+
+const inter = Inter({
+  subsets: ["latin"],
+  weight: ["400", "500"],
+  variable: "--font-inter",
+});
 
 export const metadata: Metadata = {
   title: "Pulse",
@@ -25,7 +40,7 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en">
+    <html lang="en" className={`${fraunces.variable} ${inter.variable}`}>
       <body className="min-h-dvh bg-mist text-ink dark:bg-ink dark:text-mist">
         {children}
         <SwRegister />
